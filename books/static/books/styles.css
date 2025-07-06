@@ -1,0 +1,197 @@
+/* Reset & base styles */
+:root {
+  --font-main: "Playfair Display", serif;
+  --font-accent: "Dream Avenue", serif;
+  --color-bg: #4a4e55;
+  --color-header: #616b4d;
+  --color-white: #ffffff;
+  --color-muted: #ccc;
+  --spacing: 1rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Playfair Display", serif;
+  background-color: var(--color-bg);
+  color: #fff;
+}
+
+@font-face {
+  font-family: "Dream Avenue";
+  src: url("/static/fonts/Dream-Avenue.ttf") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Header styling */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem 2rem;
+  background-color: #616b4d;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+header .logo {
+  max-width: 400px;
+  transition: max-width 0.3s ease;
+}
+
+/* When scrolled */
+header.shrink {
+  padding: 0.75rem 2rem;
+}
+
+header.shrink .logo {
+  max-width: 250px;
+}
+
+.search-section {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.search-bar input[type="text"] {
+  flex: 1;
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #333;
+  background: transparent;
+}
+
+.search-bar input[type="text"]::placeholder {
+  color: #888;
+}
+
+.search-bar input[type="text"]:focus {
+  outline: none;
+}
+
+.search-bar button {
+  background: none;
+  border: none;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.search-bar button:hover {
+  color: #000;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn {
+  background-color: var(--color-bg);
+  border: none;
+  color: var(--color-white);
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+/* Main content with background */
+main {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Content blocks */
+.content-block {
+  width: 80%;
+  height: 130px;
+  background-color: var(--color-white);
+  border-radius: 5px;
+}
+
+/* Modal container, hidden by default */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: var(--color-bg);
+  margin: 10% auto; /* 10% from top, centered horizontally */
+  padding: 20px;
+  border-radius: 5px;
+  width: 75%;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: black;
+}
+
+/* Form Styling */
+.form-container {
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.2); /* more visible */
+}
+
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+}
