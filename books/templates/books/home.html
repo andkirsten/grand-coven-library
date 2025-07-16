@@ -1,102 +1,17 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Grand Coven Library</title>
-    <link rel="stylesheet" href="{% static 'books/styles.css' %}" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <script>
-      window.addEventListener("scroll", function () {
-        const header = document.getElementById("main-header");
-        if (window.scrollY > 50) {
-          header.classList.add("shrink");
-        } else {
-          header.classList.remove("shrink");
-        }
-      });
-    </script>
-  </head>
-  <body>
-    <header id="main-header">
-      <a href="/" aria-label="The Grand Coven Library Home">
-        <img
-          class="logo"
-          src="/static/books/images/headerLogo.svg"
-          alt="The Grand Coven Library logo"
-        />
-      </a>
-      <div class="search-section">
-        <form class="search-bar" action="" method="">
-          <input
-            type="text"
-            name="q"
-            placeholder="Search books..."
-            aria-label="Search for a book"
-          />
-          <button type="submit"><i class="fas fa-search"></i></button>
-        </form>
-      </div>
-      <nav>
-        <button class="nav-btn" id="addBookBtn">Add Book</button>
-        <button class="nav-btn">ABOUT</button>
-      </nav>
-    </header>
-
-    <main>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-      <div class="content-block"></div>
-    </main>
-    <!-- The Modal -->
-    <div id="addBookModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="form-container">
-          <h1>Add a Book to the Grand Coven Library</h1>
-          <form method="POST">
-            {% csrf_token %}
-            <div class="field">{{ form.title.label_tag }} {{ form.title }}</div>
-            <div class="field">
-              {{ form.author.label_tag }} {{ form.author }}
-            </div>
-            <div class="field">
-              {{ form.magic_type.label_tag }} {{ form.magic_type }}
-            </div>
-            <div class="field">
-              {{ form.book_class.label_tag }} {{ form.book_class }}
-            </div>
-            <div class="field">
-              {{ form.summary.label_tag }} {{ form.summary }}
-            </div>
-            <div class="field">
-              {{ form.zine_code.label_tag }} {{ form.zine_code }}
-            </div>
-            <button type="submit" class="nav-btn">Submit Book</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <script src="{% static 'books/js/modal.js' %}"></script>
-  </body>
-</html>
+{% extends "books/base.html" %} {% block content %}
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+<div class="content-block"></div>
+{% endblock %}

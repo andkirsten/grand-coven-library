@@ -119,6 +119,7 @@ nav {
   font-size: 0.9rem;
   cursor: pointer;
   letter-spacing: 1px;
+  text-decoration: none;
 }
 
 /* Main content with background */

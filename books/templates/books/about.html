@@ -1,0 +1,87 @@
+{% extends 'books/base.html' %} {% block content %}
+<main class="info-page">
+  <section class="how-to-play">
+    <h1>How to Play</h1>
+    <p>
+      The <strong>Grand Coven Library</strong> is a solo role-playing game
+      designed and published by Scott Russell Morris, aka Magpie Zines. In order
+      to add a book to the library, you will need a copy of the game. Physical
+      copies may be purchased from the
+      <a
+        href="https://www.etsy.com/shop/MagpieZines"
+        target="_blank"
+        rel="noopener"
+        >Magpie Zines Etsy shop</a
+      >, and digital versions are available on
+      <a href="https://magpiezines.itch.io/" target="_blank" rel="noopener"
+        >Magpie Zines' itch.io page</a
+      >.
+    </p>
+  </section>
+
+  <section class="librarian-info">
+    <h2>Information for Librarians</h2>
+    <p>
+      Once you’ve entered a new book into the library catalog, it will be
+      publicly displayed to anyone who searches the library. If you’ve added a
+      book and would prefer it not be listed, please use the contact form below
+      and we will remove it.
+    </p>
+    <p>
+      The Grand Coven Library celebrates diversity and inclusion in our titles.
+      We actively welcome books that represent a spectrum of identities. Entries
+      that promote — or appear to promote — homophobia, sexism, racism, ageism,
+      transphobia, or other harmful ideologies will be removed.
+    </p>
+  </section>
+
+  <section class="call-numbers">
+    <h2>How Call Numbers Are Generated</h2>
+    <p>
+      Every call number in the Grand Coven Library is unique. The first glyphs
+      are based on the <strong>magic category</strong> and the
+      <strong>book class</strong>. A numeric ID is assigned based on the total
+      number of entries, and final letters come from the author’s last name (or
+      book title initials for anonymous works).
+    </p>
+    <p>Each magic category uses a different occult alphabet:</p>
+    <ul>
+      <li><strong>Dark Magic</strong> — Alphabet of the Magi</li>
+      <li><strong>Folk Magic</strong> — Theban</li>
+      <li><strong>Nature Magic</strong> — Runes</li>
+      <li><strong>Elder Magic</strong> — Malachim’s Alphabet</li>
+    </ul>
+    <p>
+      These call numbers become summoning glyphs. Inscribe them in the air with
+      a Grand Coven Library Circulation Wand (patent pending), and the book will
+      appear.
+    </p>
+  </section>
+
+  <section class="contact-form">
+    <h2>Contact Us</h2>
+    <form method="POST" action="#">
+      {% csrf_token %}
+      <label for="email">Your Email Address</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        placeholder="you@example.com"
+      />
+
+      <label for="call_number">Book Call Number</label>
+      <input
+        type="text"
+        id="call_number"
+        name="call_number"
+        required
+        placeholder="e.g., Da-01-123-MAG"
+      />
+
+      <button type="submit" class="nav-btn">Submit Request</button>
+    </form>
+  </section>
+</main>
+{% endblock %}

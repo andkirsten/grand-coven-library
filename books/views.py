@@ -19,3 +19,6 @@ def home(request):
 
 def card(request):
     return render(request, 'books/card.html')
+
+def about(request):
+    return render(request, 'books/about.html')
