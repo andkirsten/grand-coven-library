@@ -15,11 +15,11 @@ class BookForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ['title', 'author', 'magic_type', 'book_class', 'summary', 'zine_code']
+        fields = ['title', 'author', 'type_code', 'class_code', 'summary', 'zine_code']
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Book title'}),
             'author': forms.TextInput(attrs={'placeholder': 'Author name'}),
-            'magic_type': forms.Select(),
-            'book_class': forms.Select(),
+            'type_code': forms.Select(),
+            'class_code': forms.Select(),
             'summary': forms.Textarea(attrs={'placeholder': 'Describe the contents...', 'rows': 4}),
         }

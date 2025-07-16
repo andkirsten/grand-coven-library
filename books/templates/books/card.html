@@ -104,16 +104,13 @@
   </head>
   <body>
     <section class="card" role="region" aria-label="Book catalog card">
-      <h1>Grimoire of Shadows</h1>
-      <h2>Ximon Suggins</h2>
-
-      <div class="call-number" aria-label="Call Number">Fo 04.125 Su</div>
+      <h1>{{ title }}</h1>
 
       <div class="info-block">
-        <span class="label">Class:</span> Bestiary<br />
-        <span class="label">Type of Magic:</span> Folk<br />
-        <span class="label">Entry Number:</span> 125<br />
-        <span class="label">Author Initials:</span> Su
+        <span class="label">Class:</span> {{ class_name }}<br />
+        <span class="label">Type of Magic:</span> {{ type_name }}<br />
+        <span class="label">Call Number:</span> {{ call_number }}<br />
+        <span class="label">Author Initials:</span> {{ author_initials }}
       </div>
 
       <div class="footer">

@@ -1,8 +1,6 @@
 from django.db import models
 
-# books/models.py
-
-from django.db import models
+from .utils import generate_call_number
 
 TYPE_CHOICES = [
     ('Da', 'Dark'),
@@ -12,41 +10,27 @@ TYPE_CHOICES = [
 ]
 
 CLASS_CHOICES = [
-    ('01', 'Grimoire'),
-    ('02', 'Field Guide'),
-    ('03', 'Esoterica'),
-    ('04', 'Bestiary'),
-    ('05', 'Rituals'),
-    ('06', 'Potions'),
-    ('07', 'Machines'),
-    ('08', 'Runes'),
-    ('09', 'Summoning'),
-    ('10', 'Charms and Enchantments'),
-    ('11', 'Astrology'),
-    ('12', 'Divination'),
-    ('13', 'Herbarium'),
-    ('14', 'Portal Book'),
+    ('GRM', 'Grimoire'), ('FLD', 'Field Guide'), ('ESO', 'Esoterica'),
+    ('BST', 'Bestiary'), ('RTL', 'Rituals'), ('PTN', 'Potions'),
+    ('MKN', 'Machines'), ('RNS', 'Runes'), ('SMN', 'Summoning'),
+    ('CRM', 'Charms and Enchantments'), ('AST', 'Astrology'),
+    ('DVN', 'Divination'), ('HRB', 'Herbarium'), ('PRL', 'Portal Book'),
+
 ]
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
-    magic_type = models.CharField(max_length=2, choices=TYPE_CHOICES)
-    book_class = models.CharField(max_length=2, choices=CLASS_CHOICES)
+    type_code = models.CharField(max_length=2, choices=TYPE_CHOICES)
+    class_code = models.CharField(max_length=3, choices=CLASS_CHOICES)
+    call_number = models.CharField(max_length=50, blank=True)
     summary = models.TextField(blank=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def get_entry_number(self):
-        return f"{self.id:03}" if self.id else "000"
-
-    def get_author_code(self):
-        return self.author.strip().split()[-1][:2].capitalize() if self.author else "??"
-
-    @property
-    def call_number(self):
-        return f"{self.magic_type} {self.book_class}.{self.get_entry_number()} {self.get_author_code()}"
+    def save(self, *args, **kwargs):
+        if not self.call_number:
+            self.call_number, self.entry_number = generate_call_number(self)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.title} ({self.call_number})"
-
