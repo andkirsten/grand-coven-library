@@ -2,6 +2,8 @@
 
 from django.shortcuts import render, redirect
 from .forms import BookForm
+from .models import Book, Tag
+
 
 def home(request):
     if request.method == "POST":

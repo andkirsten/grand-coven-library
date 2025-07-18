@@ -18,6 +18,13 @@ CLASS_CHOICES = [
 
 ]
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
@@ -26,6 +33,7 @@ class Book(models.Model):
     call_number = models.CharField(max_length=50, blank=True)
     summary = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.call_number:
