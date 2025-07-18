@@ -20,6 +20,7 @@ CLASS_CHOICES = [
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    is_suggested = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
