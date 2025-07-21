@@ -2,14 +2,14 @@ from django.db import models
 
 from .utils import generate_call_number
 
-TYPE_CHOICES = [
+MAGIC_CHOICES = [
     ('Da', 'Dark'),
     ('Fo', 'Folk'),
     ('Na', 'Nature'),
     ('El', 'Elder'),
 ]
 
-CLASS_CHOICES = [
+TYPE_CHOICES = [
     ('GRM', 'Grimoire'), ('FLD', 'Field Guide'), ('ESO', 'Esoterica'),
     ('BST', 'Bestiary'), ('RTL', 'Rituals'), ('PTN', 'Potions'),
     ('MKN', 'Machines'), ('RNS', 'Runes'), ('SMN', 'Summoning'),
@@ -27,14 +27,21 @@ class Tag(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.CharField(max_length=200)
-    type_code = models.CharField(max_length=2, choices=TYPE_CHOICES)
-    class_code = models.CharField(max_length=3, choices=CLASS_CHOICES)
+    title = models.CharField(max_length=1000)
+    author_first_name = models.CharField(max_length=200, blank=True)
+    author_last_name = models.CharField(max_length=200, blank=True)
+    magic_category= models.CharField(max_length=2, choices=MAGIC_CHOICES)
+    book_type = models.CharField(max_length=3, choices=TYPE_CHOICES)
     call_number = models.CharField(max_length=50, blank=True)
     summary = models.TextField(blank=True)
+    publisher = models.CharField(max_length=200, blank=True)
+    city = models.CharField(max_length=200, blank=True)
+    year = models.CharField(max_length=200, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, blank=True)
+    entry_number = models.IntegerField(default=0)
+    notes = models.TextField(blank=True)
+    librarian = models.CharField(max_length=300, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.call_number:

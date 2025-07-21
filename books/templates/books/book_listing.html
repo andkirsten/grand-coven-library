@@ -1,0 +1,149 @@
+{% load static %}
+
+<style>
+  .book-listing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .book-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #8b4513;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .book-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .book-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+  }
+
+  .book-title {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.4em;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .call-number {
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+  }
+
+  .book-details {
+    line-height: 1.6;
+  }
+
+  .book-author {
+    margin-bottom: 10px;
+    color: #495057;
+  }
+
+  .book-classification {
+    margin-bottom: 10px;
+  }
+
+  .type-badge,
+  .class-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    margin-right: 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 500;
+  }
+
+  .type-badge {
+    background: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #bbdefb;
+  }
+
+  .class-badge {
+    background: #f3e5f5;
+    color: #7b1fa2;
+    border: 1px solid #e1bee7;
+  }
+
+  .book-publication {
+    margin-bottom: 10px;
+    color: #6c757d;
+    font-size: 0.9em;
+  }
+
+  .publisher,
+  .city,
+  .year {
+    margin-right: 10px;
+  }
+
+  .book-summary {
+    margin-bottom: 15px;
+    color: #495057;
+    font-style: italic;
+  }
+
+  .book-tags {
+    margin-bottom: 15px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: #f8f9fa;
+    color: #495057;
+    padding: 2px 6px;
+    margin: 2px 4px 2px 0;
+    border-radius: 12px;
+    font-size: 0.8em;
+    border: 1px solid #dee2e6;
+  }
+
+  .book-meta {
+    color: #6c757d;
+    font-size: 0.85em;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 10px;
+  }
+
+  .no-books {
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    color: #6c757d;
+  }
+
+  @media (max-width: 768px) {
+    .book-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .call-number {
+      margin-top: 10px;
+    }
+
+    .book-card {
+      padding: 15px;
+    }
+  }
+</style>

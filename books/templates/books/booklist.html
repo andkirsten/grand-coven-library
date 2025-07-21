@@ -1,18 +1,55 @@
-{% extends "books/base.html" %} {% block content %}
+{% extends "books/base.html" %} {% block content %} {% load static %}
 
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
-<div class="content-block"></div>
+<div class="book-listing-container">
+  {% for book in books %}
+  <div class="book-card">
+    <div class="book-header">
+      <h3 class="book-title">{{ book.title }}</h3>
+      <span class="call-number">{{ book.call_number }}</span>
+    </div>
+
+    <div class="book-details">
+      <div class="book-author"><strong>Author:</strong> {{ book.author }}</div>
+
+      <div class="book-classification">
+        <span class="type-badge">{{ book.get_type_code_display }}</span>
+        <span class="class-badge">{{ book.get_class_code_display }}</span>
+      </div>
+
+      {% if book.publisher or book.city or book.year %}
+      <div class="book-publication">
+        {% if book.publisher %}
+        <span class="publisher">{{ book.publisher }}</span>
+        {% endif %} {% if book.city %}
+        <span class="city">{{ book.city }}</span>
+        {% endif %} {% if book.year %}
+        <span class="year">{{ book.year }}</span>
+        {% endif %}
+      </div>
+      {% endif %} {% if book.summary %}
+      <div class="book-summary">
+        <strong>Summary:</strong> {{ book.summary|truncatewords:30 }}
+      </div>
+      {% endif %} {% if book.tags.all %}
+      <div class="book-tags">
+        <strong>Tags:</strong>
+        {% for tag in book.tags.all %}
+        <span class="tag">{{ tag.name }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="book-meta">
+        <small>Added: {{ book.created_at|date:"M d, Y" }}</small>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="no-books">
+    <p>No books have been added to the library yet.</p>
+    <p>Click the "Add Book" button to add your first book!</p>
+  </div>
+  {% endfor %}
+</div>
+
 {% endblock %}
