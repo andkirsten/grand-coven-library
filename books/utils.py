@@ -13,4 +13,4 @@ def generate_call_number(book_instance):
     next_entry = 1 if not last_entry else last_entry.entry_number + 1
     entry_str = f"{next_entry:03d}"
 
-    return f"{book_instance.book_type}-{book_instance.magic_category} . {author_code} . {entry_str}", next_entry
+    return f"{book_instance.magic_category}-{book_instance.book_type} . {author_code} . {entry_str}", next_entry

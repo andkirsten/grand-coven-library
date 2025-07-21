@@ -3,10 +3,10 @@ from django.db import models
 from .utils import generate_call_number
 
 MAGIC_CHOICES = [
-    ('Da', 'Dark'),
-    ('Fo', 'Folk'),
-    ('Na', 'Nature'),
-    ('El', 'Elder'),
+    ('DA', 'Dark'),
+    ('FO', 'Folk'),
+    ('NA', 'Nature'),
+    ('EL', 'Elder'),
 ]
 
 TYPE_CHOICES = [
