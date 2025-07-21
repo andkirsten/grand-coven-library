@@ -28,6 +28,7 @@ class Tag(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=1000)
+    author_anonymous = models.BooleanField(default=False, blank=True)
     author_first_name = models.CharField(max_length=200, blank=True)
     author_last_name = models.CharField(max_length=200, blank=True)
     magic_category= models.CharField(max_length=2, choices=MAGIC_CHOICES)

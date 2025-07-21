@@ -5,8 +5,72 @@
     <span class="close">&times;</span>
     <div class="form-container">
       <h1>Add a Book to the Grand Coven Library</h1>
-      <form method="POST">
-        {% csrf_token %} {{ form.as_p }}
+      <form method="POST" class="book-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_gcl_secret_code">GCL Password</label><br />
+          {{ form.gcl_secret_code }}
+        </div>
+        <div class="form-group">
+          <label for="id_title">Title</label><br />
+          {{ form.title }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_author_anonymous">Author</label><br />
+          {{ form.author_anonymous }}
+          <label for="id_author_anonymous">Anonymous Author</label><br />
+          <label for="id_author_first_name">First Name</label><br />
+          {{ form.author_first_name }}
+          <label for="id_author_last_name">Last Name</label><br />
+          {{ form.author_last_name }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_magic_category">Magic Category</label><br />
+          {{ form.magic_category }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_book_type">Book Type</label><br />
+          {{ form.book_type }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_summary">Summary</label><br />
+          {{ form.summary }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_publisher">Publisher</label><br />
+          {{ form.publisher }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_city">City</label><br />
+          {{ form.city }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_year">Year</label><br />
+          {{ form.year }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_tags">Tags</label><br />
+          <div class="tag-field-container">{{ form.tags }}</div>
+        </div>
+
+        <div class="form-group">
+          <label for="id_notes">Notes</label><br />
+          {{ form.notes }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_librarian">Librarian</label><br />
+          {{ form.librarian }}
+        </div>
+
         <button type="submit" class="nav-btn">Submit Book</button>
       </form>
     </div>
@@ -48,4 +112,22 @@
         .trigger("change");
     }
   }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const anonCheckbox = document.getElementById("id_author_anonymous");
+    const firstName = document.getElementById("id_author_first_name");
+    const lastName = document.getElementById("id_author_last_name");
+
+    function toggleAuthorFields() {
+      const isAnon = anonCheckbox.checked;
+      firstName.disabled = isAnon;
+      lastName.disabled = isAnon;
+      firstName.style.background = isAnon ? "#eee" : "";
+      lastName.style.background = isAnon ? "#eee" : "";
+    }
+
+    anonCheckbox.addEventListener("change", toggleAuthorFields);
+    toggleAuthorFields(); // Set initial state
+  });
 </script>
