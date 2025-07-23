@@ -51,3 +51,20 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.call_number})"
+
+    @property
+    def call_number_magic(self):
+        # Returns the first portion (e.g., 'DA-GRM')
+        return self.call_number.split(' . ')[0] if self.call_number else ''
+
+    @property
+    def call_number_rest(self):
+        # Returns the rest (e.g., 'SM . 001')
+        parts = self.call_number.split(' . ')
+        return ' . '.join(parts[1:]) if len(parts) > 1 else ''
+
+    @property
+    def author_display(self):
+        if self.author_first_name or self.author_last_name:
+            return f"{self.author_first_name} {self.author_last_name}".strip()
+        return "Unknown"

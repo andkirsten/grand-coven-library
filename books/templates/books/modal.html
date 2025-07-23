@@ -6,54 +6,81 @@
     <div class="form-container">
       <h1>Add a Book to the Grand Coven Library</h1>
       <form method="POST" class="book-form">
-        {% csrf_token %}
+        {% csrf_token %} {% if form.non_field_errors %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        {% endif %}
         <div class="form-group">
           <label for="id_gcl_secret_code">GCL Password</label><br />
-          {{ form.gcl_secret_code }}
+          {{ form.gcl_secret_code }} {% if form.gcl_secret_code.errors %}
+          <div class="form-error">{{ form.gcl_secret_code.errors.0 }}</div>
+          {% endif %}
         </div>
         <div class="form-group">
           <label for="id_title">Title</label><br />
-          {{ form.title }}
+          {{ form.title }} {% if form.title.errors %}
+          <div class="form-error">{{ form.title.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label for="id_author_anonymous">Author</label><br />
-          {{ form.author_anonymous }}
+          {{ form.author_anonymous }} {% if form.author_anonymous.errors %}
+          <div class="form-error">{{ form.author_anonymous.errors.0 }}</div>
+          {% endif %}
           <label for="id_author_anonymous">Anonymous Author</label><br />
+          {% if form.author_first_name.errors %}
+          <div class="form-error">{{ form.author_first_name.errors.0 }}</div>
+          {% endif %}
           <label for="id_author_first_name">First Name</label><br />
-          {{ form.author_first_name }}
+          {{ form.author_first_name }} {% if form.author_last_name.errors %}
+          <div class="form-error">{{ form.author_last_name.errors.0 }}</div>
+          {% endif %}
           <label for="id_author_last_name">Last Name</label><br />
-          {{ form.author_last_name }}
+          {{ form.author_last_name }} {% if form.author_last_name.errors %}
+          <div class="form-error">{{ form.author_last_name.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label for="id_magic_category">Magic Category</label><br />
-          {{ form.magic_category }}
+          {{ form.magic_category }} {% if form.magic_category.errors %}
+          <div class="form-error">{{ form.magic_category.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label for="id_book_type">Book Type</label><br />
-          {{ form.book_type }}
+          {{ form.book_type }} {% if form.book_type.errors %}
+          <div class="form-error">{{ form.book_type.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label for="id_summary">Summary</label><br />
-          {{ form.summary }}
+          {{ form.summary }} {% if form.summary.errors %}
+          <div class="form-error">{{ form.summary.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label for="id_publisher">Publisher</label><br />
-          {{ form.publisher }}
+          {{ form.publisher }} {% if form.publisher.errors %}
+          <div class="form-error">{{ form.publisher.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label for="id_city">City</label><br />
-          {{ form.city }}
+          {{ form.city }} {% if form.city.errors %}
+          <div class="form-error">{{ form.city.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label for="id_year">Year</label><br />
-          {{ form.year }}
+          {{ form.year }} {% if form.year.errors %}
+          <div class="form-error">{{ form.year.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
@@ -63,12 +90,16 @@
 
         <div class="form-group">
           <label for="id_notes">Notes</label><br />
-          {{ form.notes }}
+          {{ form.notes }} {% if form.notes.errors %}
+          <div class="form-error">{{ form.notes.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label for="id_librarian">Librarian</label><br />
-          {{ form.librarian }}
+          {{ form.librarian }} {% if form.librarian.errors %}
+          <div class="form-error">{{ form.librarian.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <button type="submit" class="nav-btn">Submit Book</button>
@@ -131,3 +162,12 @@
     toggleAuthorFields(); // Set initial state
   });
 </script>
+
+{% if show_modal %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Replace 'addBookModal' with your modal's actual ID
+    document.getElementById("addBookModal").style.display = "block";
+  });
+</script>
+{% endif %}

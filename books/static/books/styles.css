@@ -27,6 +27,42 @@ body {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Magi";
+  src: url("/static/books/fonts/Magi.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Theban";
+  src: url("/static/books/fonts/Theban.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Floki";
+  src: url("/static/books/fonts/Floki.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Malachim";
+  src: url("/static/books/fonts/Malachim.ttf") format("truetype");
+}
+
+/* Default call number style */
+.call-number {
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* Magic-specific styles */
+.call-number .magic-da {
+  font-family: "Magi", serif;
+}
+.call-number .magic-fo {
+  font-family: "Theban", serif;
+}
+.call-number .magic-na {
+  font-family: "Floki", serif;
+}
+.call-number .magic-el {
+  font-family: "Malachim", serif;
+}
+
 /* Header styling */
 header {
   display: flex;
@@ -211,6 +247,7 @@ form textarea {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-left: 4px solid #8b4513;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
 }
 
 .book-card:hover {
@@ -328,6 +365,25 @@ form textarea {
   color: #6c757d;
 }
 
+.print-card-btn {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+  background: #231815;
+  color: #fff;
+  padding: 0.5em 1.2em;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: background 0.2s;
+}
+.print-card-btn:hover {
+  background: #444;
+  color: #fff;
+}
+
 @media (max-width: 768px) {
   .book-header {
     flex-direction: column;
@@ -394,4 +450,19 @@ form textarea {
 }
 .select2-search__field {
   font-size: 1em !important;
+}
+
+.unknown-author {
+  color: #888;
+  font-style: italic;
+}
+
+.form-error {
+  color: #b71c1c;
+  background: #ffeaea;
+  border: 1px solid #f8bcbc;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  margin-top: 0.5em;
+  font-size: 0.95em;
 }

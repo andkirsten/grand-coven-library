@@ -5,15 +5,19 @@
   <div class="book-card">
     <div class="book-header">
       <h3 class="book-title">{{ book.title }}</h3>
-      <span class="call-number">{{ book.call_number }}</span>
+      <span class="call-number">
+        <span class="magic-{{ book.magic_category|lower }}">
+          {{ book.call_number_magic }}
+        </span>
+        {% if book.call_number_rest %} . {{ book.call_number_rest }} {% endif %}
+      </span>
     </div>
 
     <div class="book-details">
-      <div class="book-author"><strong>Author:</strong> {{ book.author }}</div>
-
-      <div class="book-classification">
-        <span class="type-badge">{{ book.get_type_code_display }}</span>
-        <span class="class-badge">{{ book.get_class_code_display }}</span>
+      <div class="book-author">
+        <strong>Author:</strong>
+        {% if book.author_anonymous %} Anonymous {% else %}
+        <span>{{ book.author_display }}</span> {% endif %}
       </div>
 
       {% if book.publisher or book.city or book.year %}
@@ -27,12 +31,9 @@
         {% endif %}
       </div>
       {% endif %} {% if book.summary %}
-      <div class="book-summary">
-        <strong>Summary:</strong> {{ book.summary|truncatewords:30 }}
-      </div>
+      <div class="book-summary">{{ book.summary|truncatewords:100 }}</div>
       {% endif %} {% if book.tags.all %}
       <div class="book-tags">
-        <strong>Tags:</strong>
         {% for tag in book.tags.all %}
         <span class="tag">{{ tag.name }}</span>
         {% endfor %}
@@ -40,9 +41,19 @@
       {% endif %}
 
       <div class="book-meta">
-        <small>Added: {{ book.created_at|date:"M d, Y" }}</small>
+        <small
+          >Added: {{ book.created_at|date:"M d, Y" }} by
+          <span>{{ book.librarian }}</span></small
+        >
       </div>
     </div>
+    <a
+      href="{% url 'print_card' book.id %}"
+      target="_blank"
+      class="print-card-btn"
+    >
+      Print Catalog Card
+    </a>
   </div>
   {% empty %}
   <div class="no-books">

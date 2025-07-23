@@ -1,0 +1,33 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# If using Django's collectstatic
+/static/
+
+# Environment variables
+.env
+.env.*
+
+# VS Code settings
+.vscode/
+
+# macOS
+.DS_Store
+
+# Virtual environment
+venv/
+ENV/
+env/
