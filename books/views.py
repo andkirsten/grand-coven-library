@@ -53,4 +53,15 @@ def print_card(request, book_id):
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename=\"catalog_card_{book.id}.pdf\"'
     return response
-    
+
+@property
+def call_number_magic(self):
+    return self.call_number_parts[0] if len(self.call_number_parts) > 0 else ''
+
+@property
+def call_number_author(self):
+    return self.call_number_parts[1] if len(self.call_number_parts) > 1 else ''
+
+@property
+def call_number_entry(self):
+    return self.call_number_parts[2] if len(self.call_number_parts) > 2 else ''  

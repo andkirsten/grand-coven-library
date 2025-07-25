@@ -53,15 +53,24 @@ class Book(models.Model):
         return f"{self.title} ({self.call_number})"
 
     @property
-    def call_number_magic(self):
-        # Returns the first portion (e.g., 'DA-GRM')
-        return self.call_number.split(' . ')[0] if self.call_number else ''
+    def call_number_parts(self):
+        """Returns the call number split into three parts at the dots."""
+        if self.call_number:
+            return [part.strip() for part in self.call_number.split('.')]
+        return []
 
     @property
-    def call_number_rest(self):
-        # Returns the rest (e.g., 'SM . 001')
-        parts = self.call_number.split(' . ')
-        return ' . '.join(parts[1:]) if len(parts) > 1 else ''
+    def call_number_magic(self):
+        # Returns the first portion (e.g., 'DA-GRM')
+        return self.call_number_parts[0] if len(self.call_number_parts) > 0 else ''
+
+    @property
+    def call_number_author(self):
+        return self.call_number_parts[1] if len(self.call_number_parts) > 1 else ''
+
+    @property
+    def call_number_entry(self):
+        return self.call_number_parts[2] if len(self.call_number_parts) > 2 else ''
 
     @property
     def author_display(self):

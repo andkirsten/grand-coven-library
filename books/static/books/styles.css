@@ -384,6 +384,29 @@ form textarea {
   color: #fff;
 }
 
+.catalog-number {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 1em;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin-top: 0.5em;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  background-color: #2d1b15;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  box-shadow: 0 0 0 2px #000; /* optional: adds a border effect */
+  z-index: 2;
+}
+
 @media (max-width: 768px) {
   .book-header {
     flex-direction: column;
