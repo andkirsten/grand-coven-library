@@ -395,16 +395,16 @@ form textarea {
 }
 
 .dot {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-color: #2d1b15;
   border-radius: 50%;
   position: absolute;
   left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 50%);
-  box-shadow: 0 0 0 2px #000; /* optional: adds a border effect */
-  z-index: 2;
+  bottom: 0.5in;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 3px #000;
+  z-index: 10;
 }
 
 @media (max-width: 768px) {
