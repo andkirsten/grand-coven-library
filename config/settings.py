@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'insecure-default-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['skoticus.com', 'www.skoticus.com', 'localhost', '127.0.0.1', '.onrender.com']
+ALLOWED_HOSTS = ['skoticus.com', 'www.skoticus.com', 'localhost', '127.0.0.1', 'grand-coven-library.onrender.com']
 
 
 # Application definition
@@ -161,6 +161,4 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
 
-import os
-print(os.environ.get('DJANGO_DEBUG'))
-print(os.environ.get('DATABASE_URL'))
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
