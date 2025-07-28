@@ -68,7 +68,7 @@ body {
 
 /* Font Face Declarations */
 @font-face {
-  font-family: "Dream-Avenue";
+  font-family: "Dream Avenue";
   src: url("/static/books/fonts/Dream-Avenue.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
@@ -422,6 +422,7 @@ nav {
   padding: 0.5rem 1rem;
   border-radius: 3px;
   font-size: 0.9rem;
+  font-family: inherit;
   cursor: pointer;
   letter-spacing: 1px;
   text-decoration: none;
@@ -636,6 +637,16 @@ form textarea {
   border: 1px solid #dee2e6;
 }
 
+.clickable-tag {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clickable-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .book-meta {
   color: #6c757d;
   font-size: 0.85em;
@@ -721,16 +732,6 @@ form textarea {
   margin-bottom: 2rem;
 }
 
-/* Override main spacing for about page */
-.info-page {
-  margin-top: 0 !important;
-}
-
-/* Remove main gap for about page */
-.info-page {
-  gap: 0 !important;
-}
-
 /* Message Display */
 .messages {
   margin-bottom: 2rem;
@@ -810,6 +811,7 @@ form textarea {
 .info-page h1 {
   color: var(--color-bg);
   font-size: 2.5rem;
+  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   text-align: center;
   font-family: var(--font-accent);
@@ -825,21 +827,10 @@ form textarea {
   position: relative;
 }
 
-.info-page h2::after {
-  content: "";
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  width: 3rem;
-  height: 2px;
-  background: var(--color-accent);
-}
-
 .info-page section {
-  margin-bottom: 0;
-  padding: 1.5rem;
   background: var(--color-border);
-  border-radius: 0;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .info-page p {
@@ -867,21 +858,12 @@ form textarea {
 
 .info-page ul {
   margin: 1rem 0;
-  padding-left: 1.5rem;
+  padding-left: 1rem;
 }
 
 .info-page li {
   margin-bottom: 0.5rem;
   line-height: 1.6;
-  position: relative;
-}
-
-.info-page li::before {
-  content: "✦";
-  color: var(--color-accent);
-  font-weight: bold;
-  position: absolute;
-  left: -1.5rem;
 }
 
 /* Contact Form Styling */
@@ -900,6 +882,20 @@ form textarea {
 .contact-form h2 {
   text-align: center;
   margin-bottom: 0.5rem;
+  font-family: var(--font-accent);
+  font-size: 2.5rem;
+  color: var(--color-accent);
+  border-bottom: 3px solid var(--color-accent);
+  padding-bottom: 0.5rem;
+}
+
+.contact-form p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  max-width: 80%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .contact-form form {
@@ -941,6 +937,7 @@ form textarea {
 .contact-form .nav-btn {
   align-self: center;
   margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 1rem 2rem;
   font-size: 1.1rem;
 }

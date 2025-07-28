@@ -129,6 +129,35 @@
 
     // Show clear button if input is pre-filled
     toggleClear();
+    
+    // Tag filtering functionality
+    const clickableTags = document.querySelectorAll('.clickable-tag');
+    
+    clickableTags.forEach(tag => {
+      tag.addEventListener('click', function() {
+        const tagName = this.getAttribute('data-tag');
+        const magicCategory = this.getAttribute('data-magic');
+        const bookType = this.getAttribute('data-type');
+        
+        if (tagName) {
+          // Handle user tag clicks
+          searchInput.value = tagName;
+          searchForm.submit();
+        } else if (magicCategory) {
+          // Handle magic category clicks
+          searchInput.value = ''; // Clear search bar
+          magicSelect.value = magicCategory;
+          bookTypeSelect.value = ''; // Reset book type filter
+          searchForm.submit();
+        } else if (bookType) {
+          // Handle book type clicks
+          searchInput.value = ''; // Clear search bar
+          bookTypeSelect.value = bookType;
+          magicSelect.value = ''; // Reset magic category filter
+          searchForm.submit();
+        }
+      });
+    });
   });
 
   // Message close functionality

@@ -36,17 +36,17 @@
         <!-- Auto-generated tags from magic category and book type -->
         {% for code, label in magic_choices %}
           {% if code == book.magic_category %}
-            <span class="tag auto-tag magic-tag">{{ label }}</span>
+            <span class="tag auto-tag magic-tag clickable-tag" data-magic="{{ code }}">{{ label }}</span>
           {% endif %}
         {% endfor %}
         {% for code, label in type_choices %}
           {% if code == book.book_type %}
-            <span class="tag auto-tag type-tag">{{ label }}</span>
+            <span class="tag auto-tag type-tag clickable-tag" data-type="{{ code }}">{{ label }}</span>
           {% endif %}
         {% endfor %}
         <!-- Actual user-added tags -->
         {% for tag in book.tags.all %}
-          <span class="tag user-tag">{{ tag.name }}</span>
+          <span class="tag user-tag clickable-tag" data-tag="{{ tag.name }}">{{ tag.name }}</span>
         {% endfor %}
       </div>
 

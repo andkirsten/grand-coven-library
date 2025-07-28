@@ -70,6 +70,7 @@
 
   <section class="contact-form">
     <h2>Contact Head Librarian</h2>
+    <p>The Head Librarian is happy to answer your questions about the game. We can also assist with entering, correcting, or deleting catalog entries.</p>
     <form method="POST" action="{% url 'about' %}">
       {% csrf_token %}
       <label for="email">Your Email Address</label>
@@ -81,13 +82,13 @@
         placeholder="you@example.com"
       />
 
-      <label for="call_number">Book Call Number or Title (optional)</label>
+      <label for="call_number">Book Entry Number (last 3 digits of the book's call number) or Title</label>
       <input
         type="text"
         id="call_number"
         name="call_number"
         required
-        placeholder="e.g., Da-01-123-MAG"
+        placeholder="e.g., 001, 002, 003, etc."
       />
 
       <label for="message">Message</label>
