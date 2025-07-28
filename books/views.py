@@ -64,4 +64,8 @@ def call_number_author(self):
 
 @property
 def call_number_entry(self):
-    return self.call_number_parts[2] if len(self.call_number_parts) > 2 else ''  
+    return self.call_number_parts[2] if len(self.call_number_parts) > 2 else ''
+
+def card_preview(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    return render(request, 'books/print_card.html', {'book': book})  

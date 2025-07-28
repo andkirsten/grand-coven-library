@@ -7,7 +7,7 @@
 
   /* Colors */
   --color-bg: #4a4e55;
-  --color-header: #9cac7c;
+  --color-header: #616b4d;
   --color-white: #ffffff;
   --color-muted: #ccc;
   --color-text-primary: #2c3e50;
@@ -58,18 +58,12 @@
 body {
   font-family: var(--font-main);
   background-color: var(--color-bg);
-  background-image: url("/static/books/images/garden.jpg");
-  background-size: 70% auto;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  min-height: 100vh;
 }
 
 /* Font Face Declarations */
 @font-face {
   font-family: "Dream Avenue";
-  src: url("/static/books/fonts/Dream-Avenue.ttf") format("woff2");
+  src: url("/static/fonts/Dream-Avenue.ttf") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -95,8 +89,7 @@ body {
 
 @font-face {
   font-family: "Malachim";
-  src: url("/static/books/fonts/Malachim.woff2") format("woff2"),
-    url("/static/books/fonts/Malachim.ttf") format("truetype");
+  src: url("/static/books/fonts/Malachim.ttf") format("truetype");
   font-display: swap;
 }
 
@@ -107,16 +100,16 @@ body {
 
 /* Magic-specific styles */
 .call-number .magic-da {
-  font-family: "Magi", "Courier New", monospace;
+  font-family: "Magi", serif;
 }
 .call-number .magic-fo {
-  font-family: "Theban", "Courier New", monospace;
+  font-family: "Theban", serif;
 }
 .call-number .magic-na {
-  font-family: "Floki", "Courier New", monospace;
+  font-family: "Floki", serif;
 }
 .call-number .magic-el {
-  font-family: "Malachim", "Courier New", monospace;
+  font-family: "Malachim", serif;
 }
 
 /* Header styling */
@@ -126,7 +119,7 @@ header {
   justify-content: space-between;
   gap: 1rem;
   padding: 2rem 2rem;
-  background-color: var(--color-header);
+  background-color: #616b4d;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -252,7 +245,7 @@ main {
   border-radius: 5px;
   width: 75%;
   max-width: 90%;
-  box-shadow: 0 5px 15px var(--color-header);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Close button */
@@ -272,7 +265,7 @@ main {
 .form-container {
   margin: 0 auto;
   padding: 2rem;
-  background-color: var(--color-header); /* more visible */
+  background-color: rgba(255, 255, 255, 0.2); /* more visible */
 }
 
 form input,
@@ -300,7 +293,15 @@ form textarea {
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #8b4513;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
+}
+
+.book-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .book-header {
@@ -343,6 +344,28 @@ form textarea {
   margin-bottom: 10px;
 }
 
+.type-badge,
+.class-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  margin-right: 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.type-badge {
+  background: #e3f2fd;
+  color: #1976d2;
+  border: 1px solid #bbdefb;
+}
+
+.class-badge {
+  background: #f3e5f5;
+  color: #7b1fa2;
+  border: 1px solid #e1bee7;
+}
+
 .book-publication {
   margin-bottom: 10px;
   color: #6c757d;
@@ -379,18 +402,8 @@ form textarea {
 .book-meta {
   color: #6c757d;
   font-size: 0.85em;
+  border-top: 1px solid #e0e0e0;
   padding-top: 10px;
-  position: relative;
-}
-
-.book-meta::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 16em; /* Shorten the line to avoid the print button */
-  height: 1px;
-  background-color: #e0e0e0;
 }
 
 .no-books {
@@ -399,12 +412,6 @@ form textarea {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
   color: #6c757d;
-}
-
-.book-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }
 
 .print-card-btn {
@@ -547,7 +554,6 @@ form textarea {
   box-sizing: border-box;
   background: #fff;
   font-family: "Courier New", Courier, monospace;
-  margin: 0;
 }
 
 .print-card-inner {
@@ -651,7 +657,7 @@ form textarea {
   height: 1.5in;
   width: auto;
   bottom: 0;
-  left: -3.65in;
+  left: -0.5in;
   z-index: 2;
   transform: scaleX(-1);
 }

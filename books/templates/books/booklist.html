@@ -9,17 +9,17 @@
         <span class="magic-{{ book.magic_category|lower }}">
           {{ book.call_number_magic }}
         </span>
-        {% if book.call_number_rest %} . {{ book.call_number_rest }} {% endif %}
+        {% if book.call_number_author %} . {{ book.call_number_author }}
+        <span>{% endif %} </span> {% if book.call_number_entry %} .
+        <span>{{ book.call_number_entry }}</span> {% endif %}
       </span>
     </div>
-
     <div class="book-details">
       <div class="book-author">
         <strong>Author:</strong>
         {% if book.author_anonymous %} Anonymous {% else %}
         <span>{{ book.author_display }}</span> {% endif %}
       </div>
-
       {% if book.publisher or book.city or book.year %}
       <div class="book-publication">
         {% if book.publisher %}
@@ -46,14 +46,16 @@
           <span>{{ book.librarian }}</span></small
         >
       </div>
+      <div class="book-actions">
+        <a
+          href="{% url 'print_card' book.id %}"
+          target="_blank"
+          class="print-card-btn"
+        >
+          Print Catalog Card
+        </a>
+      </div>
     </div>
-    <a
-      href="{% url 'print_card' book.id %}"
-      target="_blank"
-      class="print-card-btn"
-    >
-      Print Catalog Card
-    </a>
   </div>
   {% empty %}
   <div class="no-books">

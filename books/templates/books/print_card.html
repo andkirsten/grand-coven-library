@@ -1,172 +1,86 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'books/styles.css' %}" />
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Library Card</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background: #fff;
-        font-family: "Courier New", Courier, monospace;
-        font-size: 10pt;
-        line-height: 1.2;
-        color: #000;
-      }
-
-      .card {
-        display: block;
-        width: 5in;
-        height: 3in;
-        position: relative;
-        overflow: hidden;
-        border: 4px solid black;
-        box-sizing: border-box;
-        background: #fff;
-      }
-
-      .card-inner {
-        display: grid;
-        grid-template-columns: 1.2in 2px 1fr;
-        width: 100%;
-        height: 100%;
-        position: relative;
-      }
-
-      .number {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        padding-right: 1em;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        margin-top: 0.5em;
-      }
-
-      .number span {
-        display: block;
-      }
-
-      .divider {
-        background: #888;
-        width: 2px;
-        height: 90%;
-        align-self: center;
-        justify-self: center;
-        z-index: 1;
-      }
-
-      .content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-left: 1em;
-        max-width: 100%;
-        word-break: break-word;
-        overflow: hidden;
-      }
-
-      .content .author {
-        font-weight: normal;
-        margin-bottom: 0.2rem;
-      }
-
-      .content .title {
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-      }
-
-      .content .publisher {
-        font-style: italic;
-        margin-bottom: 0.5rem;
-      }
-
-      .content .description {
-        line-height: 1.2;
-      }
-
-      .dot {
-        width: 30px;
-        height: 30px;
-        background-color: #2d1b15;
-        border-radius: 50%;
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translate(-50%, 50%);
-        box-shadow: 0 0 0 3px #f00; /* red border for debug */
-        z-index: 10;
-      }
-
-      .logo {
-        position: absolute;
-        bottom: 1rem;
-        right: 1rem;
-        opacity: 0.2;
-        width: 2.5em;
-        height: 2.5em;
-      }
-      .logo img {
-        width: 100%;
-        height: 100%;
-        opacity: 0.7;
-      }
-
-      .hr {
-        border: none;
-        border-top: 2px solid #888;
-
-        width: 100%;
-      }
-
-      .decorator {
-        position: absolute;
-        top: 0.5rem;
-        left: 0.5rem;
-        height: 1.5in;
-        width: 1.5in;
-        z-index: 1;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Card - {{ book.title }}</title>
+    <link rel="stylesheet" href="{% static 'books/styles.css' %}" />
   </head>
-  <body>
-    <div class="card">
-      <div class="card-inner">
-        <div class="number">
-          <span>{{ book.call_number_magic }}</span>
-          <span>{{ book.call_number_author }}</span>
-          <span>{{ book.call_number_entry }}</span>
-        </div>
-        <div class="divider"></div>
-        <div class="content">
-          <div class="author">
-            {{ book.author_last_name }}, {{ book.author_first_name }}.
+  <body class="print-card-body">
+    <div class="print-card-container">
+      <!-- Front of card -->
+      <div class="print-card">
+        <div class="print-card-inner">
+          <div class="print-card-number">
+            <span>{{ book.call_number_magic }}</span>
+            <span>{{ book.call_number_author }}</span>
+            <span>{{ book.call_number_entry }}</span>
           </div>
-          <hr class="hr" />
-          <div class="title">{{ book.title }}</div>
-          <div class="publisher">
-            {{ book.publisher }}{% if book.city %}, {{ book.city }}<span
-              >{% endif %}</span
-            ><span>{%if book.year %}</span>, {{ book.year }}{% endif %}
+          <div class="print-card-divider"></div>
+          <div class="print-card-content">
+            <div class="author">
+              {% if book.author_anonymous %} Anonymous {% else %}
+              <span>{{ book.author_last_name }}</span>,
+              <span>{{ book.author_first_name }}</span>. {% endif %}
+            </div>
+            <hr class="print-card-hr" />
+            <div class="title">{{ book.title }}</div>
+            <div class="publisher">
+              {{ book.publisher }}{% if book.city %}, {{ book.city }}
+              <span>{% endif %}</span>
+              {% if book.year %}, {{ book.year }}{% endif %}
+            </div>
+            {% if book.summary %}
+            <div class="description">{{ book.summary }}</div>
+            {% endif %}
+            <div class="print-card-dot"></div>
           </div>
-          <div class="description">{{ book.summary }}</div>
         </div>
-
-        <div class="dot"></div>
-        <div class="logo">
+        <div class="print-card-decorator">
           <img
-            src="{% static 'books/images/headerLogo.svg' %}"
+            src="{% static 'books/images/GC_decoration.png' %}"
+            alt="Decorative element"
+          />
+        </div>
+        <div class="print-card-watermark">
+          <img
+            src="{% static 'books/images/GCWatermark.png' %}"
             alt="GCL Logo"
           />
         </div>
-        <!-- Optional decorator -->
-        <div class="decorator">
+      </div>
+      <!-- Back of card -->
+      <div class="print-card">
+        <div class="print-card-inner">
+          <div class="print-card-number">
+            <span>{{ book.call_number_magic }}</span>
+            <span>{{ book.call_number_author }}</span>
+            <span>{{ book.call_number_entry }}</span>
+          </div>
+          <div class="print-card-divider"></div>
+          <div class="print-card-content notes-content">
+            {% if book.notes %}
+            <div class="print-card-notes-label">Notes:</div>
+            <div class="print-card-notes-content">
+              {{ book.notes|linebreaksbr }}
+            </div>
+            {% else %}
+            <div class="print-card-notes-content">No additional notes.</div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="print-card-decorator">
           <img
             src="{% static 'books/images/GC_decoration.png' %}"
-            alt="Decor"
-            style="width: 100%; height: 100%"
+            alt="Decorative element"
+          />
+        </div>
+        <div class="print-card-watermark">
+          <img
+            src="{% static 'books/images/GCWatermark.png' %}"
+            alt="GCL Logo"
           />
         </div>
       </div>
