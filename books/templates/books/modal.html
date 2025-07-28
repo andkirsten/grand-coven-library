@@ -24,9 +24,8 @@
               <p>To add books to the Grand Coven Library, you need the GCL password from your copy of the game.</p>
               <p><strong>Where to find it:</strong></p>
               <ul>
-                <li>Check your physical copy of the game</li>
-                <li>Look for the password in the game materials</li>
-                <li>Contact the game publisher if you need help</li>
+                <li>Check on the "Adding to the official library catalog" page of your copy of the game</li>
+                <li>Contact the head librarian if you need help</li>
               </ul>
               <p><em>This helps ensure only legitimate players can contribute to the library.</em></p>
             </div>
@@ -49,8 +48,8 @@
         <!-- Author Section -->
         <div class="form-group">
           <label>Author</label>
-          <div class="author-fields" style="display: flex; gap: 1em">
-            <div style="flex: 1">
+          <div class="author-fields" style="display: flex; gap: 1em; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 200px;">
               <label for="id_author_first_name">First Name</label>
               {{ form.author_first_name }}
               {% if form.author_first_name.errors %}
@@ -59,18 +58,17 @@
                 </div>
               {% endif %}
             </div>
-            <div style="flex: 1">
+            <div style="flex: 1; min-width: 200px;">
               <label for="id_author_last_name">Last Name</label>
               {{ form.author_last_name }} {% if form.author_last_name.errors %}
               <div class="form-error">{{ form.author_last_name.errors.0 }}</div>
               {% endif %}
             </div>
-            <div style="flex: 1; display: flex; align-items: flex-end">
-              <label for="id_author_anonymous" style="margin-bottom: 0.2em"
-                >&nbsp;</label
-              >
-              {{ form.author_anonymous }}
-              <span style="font-size: 0.95em">Anonymous</span>
+            <div style="display: flex; align-items: flex-end; margin-top: 1.5em;">
+              <label for="id_author_anonymous" style="display: flex; align-items: center; gap: 0.5em; margin: 0; cursor: pointer;">
+                {{ form.author_anonymous }}
+                <span style="font-size: 0.95em">Anonymous</span>
+              </label>
               {% if form.author_anonymous.errors %}
               <div class="form-error">{{ form.author_anonymous.errors.0 }}</div>
               {% endif %}
@@ -91,14 +89,6 @@
           <label for="id_book_type">Book Type</label>
           {{ form.book_type }} {% if form.book_type.errors %}
           <div class="form-error">{{ form.book_type.errors.0 }}</div>
-          {% endif %}
-        </div>
-
-        <!-- Summary -->
-        <div class="form-group">
-          <label for="id_summary">Summary</label>
-          {{ form.summary }} {% if form.summary.errors %}
-          <div class="form-error">{{ form.summary.errors.0 }}</div>
           {% endif %}
         </div>
 
@@ -124,10 +114,26 @@
           </div>
         </div>
 
+        <!-- Summary -->
+        <div class="form-group">
+          <label for="id_summary">Summary</label>
+          {{ form.summary }} {% if form.summary.errors %}
+          <div class="form-error">{{ form.summary.errors.0 }}</div>
+          {% endif %}
+        </div>
+
         <!-- Tags -->
         <div class="form-group">
           <label for="id_tags">Tags</label>
-          <div class="tag-field-container">{{ form.tags }}</div>
+          <div class="tag-field-container">
+            <div class="tag-input-wrapper">
+              <input type="text" id="tag-input" placeholder="Type a tag and press Enter" />
+              <div class="tag-suggestions" id="tag-suggestions" style="display: none;"></div>
+            </div>
+            <div class="selected-tags" id="selected-tags"></div>
+            {{ form.tags }}
+            <small style="color: #666; font-size: 0.9em;">Type to add new tags or select from suggestions. Press Enter to add.</small>
+          </div>
         </div>
 
         <!-- Notes -->
@@ -164,17 +170,112 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
   $(document).ready(function () {
-    $(".tag-select").select2({
-      tags: true,
-      maximumSelectionLength: 10,
-      tokenSeparators: [",", " "],
-      placeholder: "Select or add tags",
+    const tagInput = document.getElementById('tag-input');
+    const selectedTagsContainer = document.getElementById('selected-tags');
+    const hiddenTagsField = document.getElementById('id_tags');
+    const suggestionsContainer = document.getElementById('tag-suggestions');
+    
+    // Get existing tags for suggestions
+    const existingTags = [
+      {% for tag in form.fields.tags.queryset %}
+        '{{ tag.name }}',
+      {% endfor %}
+    ];
+    
+    let selectedTags = [];
+    
+    // Initialize with existing tags if editing
+    const initialTags = '{{ form.tags.value|default:"" }}';
+    if (initialTags) {
+      selectedTags = initialTags.split(',').map(tag => tag.trim()).filter(tag => tag);
+      selectedTags.forEach(tag => addTagBadge(tag));
+      updateHiddenField();
+    }
+    
+    function addTagBadge(tagName) {
+      if (selectedTags.includes(tagName)) return; // Don't add duplicates
+      
+      selectedTags.push(tagName);
+      const badge = document.createElement('span');
+      badge.className = 'tag-badge';
+      badge.innerHTML = `
+        ${tagName}
+        <button type="button" class="remove-tag" onclick="removeTag('${tagName}')">&times;</button>
+      `;
+      selectedTagsContainer.appendChild(badge);
+      updateHiddenField();
+    }
+    
+    function removeTag(tagName) {
+      selectedTags = selectedTags.filter(tag => tag !== tagName);
+      updateHiddenField();
+      // Re-render badges
+      selectedTagsContainer.innerHTML = '';
+      selectedTags.forEach(tag => addTagBadge(tag));
+    }
+    
+    function updateHiddenField() {
+      hiddenTagsField.value = selectedTags.join(', ');
+    }
+    
+    function showSuggestions(input) {
+      const query = input.toLowerCase();
+      const matches = existingTags.filter(tag => 
+        tag.toLowerCase().includes(query) && !selectedTags.includes(tag)
+      );
+      
+      if (matches.length > 0) {
+        suggestionsContainer.innerHTML = matches.map(tag => 
+          `<div class="tag-suggestion" onclick="selectSuggestion('${tag}')">${tag}</div>`
+        ).join('');
+        suggestionsContainer.style.display = 'block';
+      } else {
+        suggestionsContainer.style.display = 'none';
+      }
+    }
+    
+    function selectSuggestion(tagName) {
+      addTagBadge(tagName);
+      tagInput.value = '';
+      suggestionsContainer.style.display = 'none';
+    }
+    
+    // Handle input events
+    tagInput.addEventListener('input', function() {
+      if (this.value.trim()) {
+        showSuggestions(this.value);
+      } else {
+        suggestionsContainer.style.display = 'none';
+      }
     });
+    
+    tagInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const tagName = this.value.trim();
+        if (tagName && selectedTags.length < 10) {
+          addTagBadge(tagName);
+          this.value = '';
+          suggestionsContainer.style.display = 'none';
+        }
+      }
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!tagInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+        suggestionsContainer.style.display = 'none';
+      }
+    });
+    
+    // Make functions global
+    window.removeTag = removeTag;
+    window.selectSuggestion = selectSuggestion;
   });
 </script>
 <script>
   function addTag(tagName) {
-    var $select = $(".tag-select");
+    var $select = $("#id_tags");
     // If the tag isn't already in the select, add it
     if ($select.find("option[value='" + tagName + "']").length === 0) {
       var newOption = new Option(tagName, tagName, true, true);
@@ -203,14 +304,13 @@
     }
 
     anonCheckbox.addEventListener("change", toggleAuthorFields);
-    toggleAuthorFields(); // Set initial state
+    toggleAuthorFields(); 
   });
 </script>
 
 {% if show_modal %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Replace 'addBookModal' with your modal's actual ID
     document.getElementById("addBookModal").style.display = "block";
   });
 </script>

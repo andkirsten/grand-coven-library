@@ -14,25 +14,58 @@ from django.db.models import Q
 
 def handle_book_form_submission(request):
     """Handle book form submission and return (success, form, show_modal)"""
+    print("=== FORM SUBMISSION DEBUG ===")
+    print(f"Request method: {request.method}")
+    print(f"POST data: {request.POST}")
+    
     form = BookForm(request.POST)
+    print(f"Form is valid: {form.is_valid()}")
+    
+    if not form.is_valid():
+        print(f"Form errors: {form.errors}")
+        print(f"Form non-field errors: {form.non_field_errors()}")
+    
     show_modal = False
     
     if form.is_valid():
         code = form.cleaned_data['gcl_secret_code'].strip()
+        print(f"Secret code entered: '{code}'")
+        print(f"Expected code: '{settings.GCL_SECRET_CODE}'")
+        
         if code != settings.GCL_SECRET_CODE:
+            print("Secret code mismatch!")
             form.add_error('gcl_secret_code', 'Invalid GCL Secret Code.')
             show_modal = True
         else:
+            print("Secret code correct, saving book...")
             book = form.save(commit=False)
-            # Handle tags
-            tag_names = request.POST.getlist('tags')
-            tag_objs = []
-            for tag_name in tag_names:
-                tag, created = Tag.objects.get_or_create(name=tag_name)
-                tag_objs.append(tag)
+            print(f"Book object created: {book}")
             book.save()
-            book.tags.set(tag_objs)
-            form.save_m2m()
+            print(f"Book saved with ID: {book.id}")
+            
+            # Handle tags - create new tags if they don't exist
+            tags_string = form.cleaned_data.get('tags', '')
+            print(f"Tags string from form: '{tags_string}'")
+            
+            tag_objects = []
+            if tags_string:
+                # Split by comma and process each tag
+                tag_names = [name.strip() for name in tags_string.split(',') if name.strip()]
+                print(f"Tag names to process: {tag_names}")
+                
+                for tag_name in tag_names:
+                    if tag_name:  # Only process non-empty tags
+                        tag, created = Tag.objects.get_or_create(name=tag_name)
+                        tag_objects.append(tag)
+                        if created:
+                            print(f"Created new tag: '{tag_name}'")
+                        else:
+                            print(f"Found existing tag: '{tag_name}'")
+            
+            # Set the tags on the book
+            book.tags.set(tag_objects)
+            print(f"Set {len(tag_objects)} tags on book")
+            
             return True, form, show_modal
     else:
         show_modal = True
@@ -41,17 +74,13 @@ def handle_book_form_submission(request):
 
 
 def home(request):
-    books = Book.objects.all().order_by('created_at')
+    books = Book.objects.all().order_by('-created_at') 
     show_modal = False
     
     # Handle search and filtering
     q = request.GET.get('q')
     magic_category = request.GET.get('magic_category')
     book_type = request.GET.get('book_type')
-    
-    print(f"Search query: {q}")
-    print(f"Magic category: {magic_category}")
-    print(f"Book type: {book_type}")
     
     if q:
         books = books.filter(
@@ -63,16 +92,19 @@ def home(request):
             Q(city__icontains=q) |
             Q(year__icontains=q) |
             Q(notes__icontains=q) |
-            Q(tags__name__icontains=q)  # Also search in tags
-        ).distinct()  # Use distinct to avoid duplicates from tag searches
+            Q(tags__name__icontains=q)  
+        ).distinct()  
     if magic_category:
         books = books.filter(magic_category=magic_category)
     if book_type:
         books = books.filter(book_type=book_type)
     
     if request.method == "POST":
+        print("=== HOME VIEW: POST request received ===")
         success, form, show_modal = handle_book_form_submission(request)
+        print(f"Form submission result: success={success}, show_modal={show_modal}")
         if success:
+            print("Redirecting to home...")
             return redirect("home")
     else:
         form = BookForm()

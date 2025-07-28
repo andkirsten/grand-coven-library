@@ -1,6 +1,6 @@
 from django.db import models
 
-from .utils import generate_call_number
+from .utils import generate_call_number, generate_call_number_from_id
 
 MAGIC_CHOICES = [
     ('DA', 'Dark'),
@@ -13,7 +13,7 @@ TYPE_CHOICES = [
     ('GRM', 'Grimoire'), ('FLD', 'Field Guide'), ('ESO', 'Esoterica'),
     ('BST', 'Bestiary'), ('RTL', 'Rituals'), ('PTN', 'Potions'),
     ('MKN', 'Machines'), ('RNS', 'Runes'), ('SMN', 'Summoning'),
-    ('CRM', 'Charms and Enchantments'), ('AST', 'Astrology'),
+    ('ENC', 'Enchantments'), ('AST', 'Astrology'),
     ('DVN', 'Divination'), ('HRB', 'Herbarium'), ('PRL', 'Portal Book'),
 
 ]
@@ -40,14 +40,20 @@ class Book(models.Model):
     year = models.CharField(max_length=50, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    entry_number = models.IntegerField(default=0)
+    entry_number = models.IntegerField(default=0, blank=True)
     notes = models.TextField(blank=True, max_length=1000)
     librarian = models.CharField(max_length=300, blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.call_number:
-            self.call_number, self.entry_number = generate_call_number(self)
+        # First save to get the ID
         super().save(*args, **kwargs)
+        
+        # If no call number exists, generate it using the ID as entry number
+        if not self.call_number:
+            self.entry_number = self.id
+            self.call_number = generate_call_number_from_id(self)
+            # Save again to update call_number and entry_number
+            super().save(update_fields=['call_number', 'entry_number'])
 
     def __str__(self):
         return f"{self.title} ({self.call_number})"

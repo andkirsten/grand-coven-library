@@ -14,7 +14,7 @@
       <div class="print-card">
         <div class="print-card-inner">
           <div class="print-card-number">
-            <span>{{ book.call_number_magic }}</span>
+            <span class="magic-{{ book.magic_category|lower }}">{{ book.call_number_magic }}</span>
             <span>{{ book.call_number_author }}</span>
             <span>{{ book.call_number_entry }}</span>
           </div>
@@ -55,7 +55,7 @@
       <div class="print-card">
         <div class="print-card-inner">
           <div class="print-card-number">
-            <span>{{ book.call_number_magic }}</span>
+            <span class="magic-{{ book.magic_category|lower }}">{{ book.call_number_magic }}</span>
             <span>{{ book.call_number_author }}</span>
             <span>{{ book.call_number_entry }}</span>
           </div>
