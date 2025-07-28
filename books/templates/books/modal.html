@@ -13,7 +13,24 @@
 
         <!-- GCL Password -->
         <div class="form-group">
-          <label for="id_gcl_secret_code">GCL Password</label>
+          <label for="id_gcl_secret_code" class="tooltip-label">
+            GCL Password
+            <span class="tooltip-icon" title="Click for more information">ⓘ</span>
+            <div class="tooltip-content">
+              <div class="tooltip-header">
+                <strong>GCL Password Required</strong>
+                <button class="tooltip-close" onclick="closeTooltip(this)">&times;</button>
+              </div>
+              <p>To add books to the Grand Coven Library, you need the GCL password from your copy of the game.</p>
+              <p><strong>Where to find it:</strong></p>
+              <ul>
+                <li>Check your physical copy of the game</li>
+                <li>Look for the password in the game materials</li>
+                <li>Contact the game publisher if you need help</li>
+              </ul>
+              <p><em>This helps ensure only legitimate players can contribute to the library.</em></p>
+            </div>
+          </label>
           {{ form.gcl_secret_code }} 
           {% if form.gcl_secret_code.errors %}
           <div class="form-error">{{ form.gcl_secret_code.errors.0 }}</div>
@@ -198,3 +215,14 @@
   });
 </script>
 {% endif %}
+
+<script>
+  function closeTooltip(button) {
+    const tooltip = button.closest('.tooltip-content');
+    if (tooltip) {
+      tooltip.style.opacity = '0';
+      tooltip.style.visibility = 'hidden';
+      tooltip.style.transform = 'translateY(-10px)';
+    }
+  }
+</script>

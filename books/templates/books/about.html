@@ -1,5 +1,15 @@
 {% extends 'books/base.html' %} {% block content %}
 <main class="info-page">
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+          {{ message }}
+          <button class="close-btn" onclick="closeMessage(this)" aria-label="Close message">&times;</button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
   <section class="how-to-play">
     <h1>How to Play</h1>
     <p>
@@ -60,7 +70,7 @@
 
   <section class="contact-form">
     <h2>Contact Us</h2>
-    <form method="POST" action="#">
+    <form method="POST" action="{% url 'about' %}">
       {% csrf_token %}
       <label for="email">Your Email Address</label>
       <input
@@ -71,7 +81,7 @@
         placeholder="you@example.com"
       />
 
-      <label for="call_number">Book Call Number</label>
+      <label for="call_number">Book Call Number or Title (optional)</label>
       <input
         type="text"
         id="call_number"
@@ -79,6 +89,15 @@
         required
         placeholder="e.g., Da-01-123-MAG"
       />
+
+      <label for="message">Message</label>
+      <textarea
+        id="message"
+        name="message"
+        required
+        placeholder="Please describe your request or concern..."
+        rows="5"
+      ></textarea>
 
       <button type="submit" class="nav-btn">Submit Request</button>
     </form>

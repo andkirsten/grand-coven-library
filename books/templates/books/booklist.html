@@ -32,13 +32,23 @@
       </div>
       {% endif %} {% if book.summary %}
       <div class="book-summary">{{ book.summary|truncatewords:100 }}</div>
-      {% endif %} {% if book.tags.all %}
-      <div class="book-tags">
+      {% endif %}       <div class="book-tags">
+        <!-- Auto-generated tags from magic category and book type -->
+        {% for code, label in magic_choices %}
+          {% if code == book.magic_category %}
+            <span class="tag auto-tag magic-tag">{{ label }}</span>
+          {% endif %}
+        {% endfor %}
+        {% for code, label in type_choices %}
+          {% if code == book.book_type %}
+            <span class="tag auto-tag type-tag">{{ label }}</span>
+          {% endif %}
+        {% endfor %}
+        <!-- Actual user-added tags -->
         {% for tag in book.tags.all %}
-        <span class="tag">{{ tag.name }}</span>
+          <span class="tag user-tag">{{ tag.name }}</span>
         {% endfor %}
       </div>
-      {% endif %}
 
       <div class="book-meta">
         <small
