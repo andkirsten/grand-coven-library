@@ -95,7 +95,7 @@ body {
 
 @font-face {
   font-family: "Malachim";
-  src: url("/static/books/fonts/Malachim.woff2") format("woff2"),
+  src: url("/static/books/fonts/Malachim.woff") format("woff"),
     url("/static/books/fonts/Malachim.ttf") format("truetype");
   font-display: swap;
 }
@@ -138,6 +138,26 @@ header .logo {
   transition: max-width 0.3s ease;
 }
 
+header .logo img {
+  max-width: 350px;
+  width: 100%;
+  height: auto;
+  transition: max-width 0.3s;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  header .logo img {
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 600px) {
+  header .logo img {
+    max-width: 120px;
+  }
+}
+
 /* When scrolled */
 header.shrink {
   padding: 0.75rem 2rem;
@@ -155,14 +175,128 @@ header.shrink .logo {
 }
 
 .search-bar {
+  width: 100%;
+  max-width: 900px; /* or even 100% if you want it to fill the container */
+  margin: 0 auto;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.search-bar-row {
+  display: flex;
+  gap: 0.5em;
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(60, 64, 67, 0.15);
+  padding: 0.2em 0.5em;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.search-icon {
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-left: 0.5em;
+  margin-right: 0.2em;
+  height: 2em;
+  width: 2em;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+}
+
+.search-input-wrapper input[type="text"] {
   width: 100%;
-  max-width: 600px;
-  border: 1px solid #ccc;
+  padding: 0.7em 2.5em 0.7em 0.5em; /* left padding reduced for icon */
+  border: none;
   border-radius: 999px;
-  overflow: hidden;
-  background-color: #fff;
+  background: transparent;
+  box-shadow: none;
+  font-size: 1.1em;
+  line-height: 1.2;
+  height: 2.5em;
+  display: flex;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+
+.search-input-wrapper input[type="text"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.clear-search {
+  position: absolute;
+  right: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.3em;
+  color: #888;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2em;
+  width: 2em;
+}
+
+.clear-search:hover {
+  color: #333;
+}
+
+.search-bar-filters {
+  display: flex;
+  gap: 0.5em;
+}
+
+.search-bar-filters select {
+  flex: 1;
+  min-width: 0;
+  padding: 0.4em;
+  font-size: 1em;
+}
+
+.clear-filters-btn {
+  padding: 0.4em 0.8em;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  color: #6c757d;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clear-filters-btn:hover {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.search-bar-row input[type="text"] {
+  margin-bottom: 0 !important;
+}
+
+.search-bar-filters select {
+  margin-bottom: 0 !important;
+}
+
+/* Responsive: stack everything on small screens */
+@media (max-width: 600px) {
+  .search-bar-filters {
+    flex-direction: column;
+    gap: 0.5em;
+  }
 }
 
 .search-bar input[type="text"] {
@@ -176,6 +310,9 @@ header.shrink .logo {
 
 .search-bar input[type="text"]::placeholder {
   color: #888;
+  opacity: 1;
+  font-size: 1.1em;
+  line-height: 1.5;
 }
 
 .search-bar input[type="text"]:focus {
@@ -451,32 +588,73 @@ form textarea {
   }
 }
 /* Book Form Styles */
+.book-form {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(60, 64, 67, 0.1);
+  padding: 2em 2.5em;
+  max-width: 500px;
+  margin: 2em auto;
+}
+
 .book-form .form-group {
-  margin-bottom: 1.2em;
+  margin-bottom: 1.5em;
 }
+
 .book-form label {
-  font-weight: 500;
-  margin-right: 0.5em;
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4em;
+  color: #333;
+  font-size: 1.05em;
 }
-.book-form input[type="text"],
-.book-form input[type="number"],
-.book-form textarea,
-.book-form select {
-  width: 100%;
-  padding: 0.4em;
-  margin-top: 0.2em;
-  margin-bottom: 0.5em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1em;
-}
+
+.book-form input,
+.book-form select,
 .book-form textarea {
-  min-height: 60px;
+  width: 100%;
+  padding: 0.7em 1em;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 1.05em;
+  background: #fafbfc;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
+
+.book-form input:focus,
+.book-form select:focus,
+.book-form textarea:focus {
+  border-color: #9cac7c;
+  box-shadow: 0 0 0 2px #e6f2d8;
+  outline: none;
+}
+
+.book-form .form-error {
+  color: #b71c1c;
+  background: #ffeaea;
+  border: 1px solid #f8bcbc;
+  padding: 0.4em 0.8em;
+  border-radius: 6px;
+  margin-top: 0.4em;
+  font-size: 0.97em;
+}
+
 .book-form .nav-btn {
-  margin-top: 1em;
-  padding: 0.6em 1.5em;
+  width: 100%;
+  padding: 0.9em 0;
+  background: #9cac7c;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
   font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.book-form .nav-btn:hover {
+  background: #7b8f5a;
 }
 
 /* Style the Select2 tag field */

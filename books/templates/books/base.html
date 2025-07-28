@@ -36,14 +36,48 @@
         />
       </a>
       <div class="search-section">
-        <form class="search-bar" action="" method="">
-          <input
-            type="text"
-            name="q"
-            placeholder="Search books..."
-            aria-label="Search for a book"
-          />
-          <button type="submit"><i class="fas fa-search"></i></button>
+        <form method="get" action="{% url 'home' %}" class="search-bar" id="search-form">
+          <div class="search-bar-row">
+            <span class="search-icon" aria-hidden="true">
+              <!-- SVG for magnifying glass -->
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="9" cy="9" r="7" stroke="#888" stroke-width="2"/>
+                <line x1="14.5" y1="14.5" x2="18" y2="18" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <div class="search-input-wrapper">
+              <input
+                type="text"
+                name="q"
+                placeholder="Search books..."
+                value="{{ request.GET.q }}"
+                id="search-input"
+                autocomplete="off"
+              >
+              <button
+                type="button"
+                class="clear-search"
+                id="clear-search"
+                aria-label="Clear search"
+                style="display: none;"
+              >&times;</button>
+            </div>
+          </div>
+          <div class="search-bar-filters">
+            <select name="magic_category" id="magic-category-select">
+              <option value="">All Magic Categories</option>
+              {% for code, label in magic_choices %}
+                <option value="{{ code }}" {% if request.GET.magic_category == code %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+            <select name="book_type" id="book-type-select">
+              <option value="">All Book Types</option>
+              {% for code, label in type_choices %}
+                <option value="{{ code }}" {% if request.GET.book_type == code %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+            <button type="button" id="clear-filters" class="clear-filters-btn">Clear Filters</button>
+          </div>
         </form>
       </div>
       <nav>
@@ -54,5 +88,47 @@
 
     <main>{% block content %}{% endblock %}</main>
     {% include "books/modal.html"%}
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const magicSelect = document.getElementById('magic-category-select');
+    const bookTypeSelect = document.getElementById('book-type-select');
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    const clearBtn = document.getElementById('clear-search');
+    
+    // Auto-submit when dropdowns change
+    magicSelect.addEventListener('change', function() {
+      searchForm.submit();
+    });
+    
+    bookTypeSelect.addEventListener('change', function() {
+      searchForm.submit();
+    });
+
+    // Clear filters button
+    document.getElementById('clear-filters').addEventListener('click', function() {
+      magicSelect.value = '';
+      bookTypeSelect.value = '';
+      searchInput.value = '';
+      searchForm.submit();
+    });
+
+    // Clear search input functionality
+    function toggleClear() {
+      clearBtn.style.display = searchInput.value ? 'flex' : 'none';
+    }
+
+    searchInput.addEventListener('input', toggleClear);
+
+    clearBtn.addEventListener('click', function() {
+      searchInput.value = '';
+      searchInput.focus();
+      clearBtn.style.display = 'none';
+    });
+
+    // Show clear button if input is pre-filled
+    toggleClear();
+  });
+</script>
   </body>
 </html>

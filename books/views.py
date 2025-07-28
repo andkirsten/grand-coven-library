@@ -2,16 +2,43 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import BookForm
-from .models import Book, Tag
+from .models import Book, Tag  
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
+from django.db.models import Q
 
 
 def home(request):
     books = Book.objects.all().order_by('created_at')
     show_modal = False
+    
+    # Handle search and filtering
+    q = request.GET.get('q')
+    magic_category = request.GET.get('magic_category')
+    book_type = request.GET.get('book_type')
+    
+    print(f"Search query: {q}")
+    print(f"Magic category: {magic_category}")
+    print(f"Book type: {book_type}")
+    
+    if q:
+        books = books.filter(
+            Q(title__icontains=q) |
+            Q(author_first_name__icontains=q) |
+            Q(author_last_name__icontains=q) |
+            Q(summary__icontains=q) |
+            Q(publisher__icontains=q) |
+            Q(city__icontains=q) |
+            Q(year__icontains=q) |
+            Q(notes__icontains=q)
+        )
+    if magic_category:
+        books = books.filter(magic_category=magic_category)
+    if book_type:
+        books = books.filter(book_type=book_type)
+    
     if request.method == "POST":
         form = BookForm(request.POST)
         print("POST received")
@@ -68,4 +95,4 @@ def call_number_entry(self):
 
 def card_preview(request, book_id):
     book = Book.objects.get(pk=book_id)
-    return render(request, 'books/print_card.html', {'book': book})  
+    return render(request, 'books/print_card.html', {'book': book})
