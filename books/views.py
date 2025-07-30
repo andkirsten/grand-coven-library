@@ -10,6 +10,10 @@ from django.core.mail import send_mail
 from django.contrib import messages
 import weasyprint
 from django.db.models import Q
+from pathlib import Path
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def handle_book_form_submission(request):
@@ -166,16 +170,17 @@ This message was sent from the GCL contact form.
 
 def print_card(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-    html = render_to_string('books/print_card.html', {'book': book})
     
     try:
         print(f"Generating PDF for book {book_id}")
-        print(f"Base URL: {request.build_absolute_uri()}")
         
-        # Add timeout and better error handling for WeasyPrint
+        # Create a self-contained HTML with embedded CSS and fonts
+        html_content = create_self_contained_html(book)
+        
+        # Generate PDF without external dependencies
         pdf = weasyprint.HTML(
-            string=html, 
-            base_url=request.build_absolute_uri()
+            string=html_content,
+            base_url=None  # No external URLs
         ).write_pdf(
             optimize_images=True,
             jpeg_quality=85
@@ -191,6 +196,78 @@ def print_card(request, book_id):
         print(f"Full traceback: {traceback.format_exc()}")
         # Fallback to HTML preview
         return render(request, 'books/print_card.html', {'book': book})
+
+def create_self_contained_html(book):
+    """Create a self-contained HTML with embedded CSS and fonts"""
+    # Get the basic HTML template
+    html_template = render_to_string('books/print_card.html', {'book': book})
+    
+    # Create embedded CSS with fonts
+    embedded_css = get_embedded_css()
+    
+    # Create the complete HTML
+    complete_html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Catalog Card - {book.title}</title>
+        <style>
+            {embedded_css}
+        </style>
+    </head>
+    <body>
+        {html_template}
+    </body>
+    </html>
+    """
+    return complete_html
+
+def get_embedded_css():
+    """Get CSS content with embedded fonts"""
+    import os
+    css_path = os.path.join(BASE_DIR, 'books', 'static', 'books', 'styles.css')
+    
+    try:
+        with open(css_path, 'r') as f:
+            css_content = f.read()
+        
+        # Replace font URLs with embedded base64
+        font_replacements = {
+            'Dream-Avenue.ttf': get_font_base64('Dream-Avenue.ttf'),
+            'Magi.ttf': get_font_base64('Magi.ttf'),
+            'Theban.ttf': get_font_base64('Theban.ttf'),
+            'Floki.ttf': get_font_base64('Floki.ttf'),
+            'malachim.ttf': get_font_base64('malachim.ttf'),
+            'malachim.woff': get_font_base64('malachim.woff')
+        }
+        
+        # Replace font URLs in CSS
+        for font_file, base64_data in font_replacements.items():
+            if base64_data:
+                css_content = css_content.replace(
+                    f'url("/static/books/fonts/{font_file}")',
+                    f'url("data:font/truetype;base64,{base64_data}")'
+                )
+        
+        return css_content
+    except FileNotFoundError:
+        print(f"CSS file not found: {css_path}")
+        return ""
+
+def get_font_base64(font_filename):
+    """Convert font file to base64 for embedding"""
+    import base64
+    import os
+    font_path = os.path.join(BASE_DIR, 'books', 'static', 'books', 'fonts', font_filename)
+    try:
+        with open(font_path, 'rb') as f:
+            return base64.b64encode(f.read()).decode('utf-8')
+    except FileNotFoundError:
+        print(f"Font file not found: {font_path}")
+        return ""
+
+
 
 @property
 def call_number_magic(self):
