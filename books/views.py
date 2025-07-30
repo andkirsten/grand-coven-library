@@ -167,10 +167,30 @@ This message was sent from the GCL contact form.
 def print_card(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     html = render_to_string('books/print_card.html', {'book': book})
-    pdf = weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf()
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename=\"catalog_card_{book.id}.pdf\"'
-    return response
+    
+    try:
+        print(f"Generating PDF for book {book_id}")
+        print(f"Base URL: {request.build_absolute_uri()}")
+        
+        # Add timeout and better error handling for WeasyPrint
+        pdf = weasyprint.HTML(
+            string=html, 
+            base_url=request.build_absolute_uri()
+        ).write_pdf(
+            optimize_images=True,
+            jpeg_quality=85
+        )
+        print("PDF generated successfully")
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = f'inline; filename=\"catalog_card_{book.id}.pdf\"'
+        return response
+    except Exception as e:
+        print(f"PDF generation error: {e}")
+        print(f"Error type: {type(e)}")
+        import traceback
+        print(f"Full traceback: {traceback.format_exc()}")
+        # Fallback to HTML preview
+        return render(request, 'books/print_card.html', {'book': book})
 
 @property
 def call_number_magic(self):

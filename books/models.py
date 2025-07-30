@@ -81,5 +81,16 @@ class Book(models.Model):
     @property
     def author_display(self):
         if self.author_first_name or self.author_last_name:
-            return f"{self.author_first_name} {self.author_last_name}".strip()
+            # Build the name parts
+            name_parts = []
+            if self.author_last_name:
+                name_parts.append(self.author_last_name)
+            if self.author_first_name:
+                name_parts.append(self.author_first_name)
+            
+            # Join with comma only if both parts exist
+            if len(name_parts) == 2:
+                return f"{name_parts[0]}, {name_parts[1]}"
+            else:
+                return name_parts[0]
         return "Unknown"

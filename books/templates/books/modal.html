@@ -3,9 +3,8 @@
 <div id="addBookModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <div class="form-container">
-      <h1>Add a Book to the Grand Coven Library</h1>
-      <form method="POST" class="book-form">
+    <h1>Add a Book to the Grand Coven Library</h1>
+    <form method="POST" class="book-form">
         {% csrf_token %} 
         {% if form.non_field_errors %}
         <div class="form-error">{{ form.non_field_errors }}</div>
@@ -47,9 +46,8 @@
 
         <!-- Author Section -->
         <div class="form-group">
-          <label>Author</label>
-          <div class="author-fields" style="display: flex; gap: 1em; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 200px;">
+          <div class="author-fields">
+            <div class="author-name-field">
               <label for="id_author_first_name">First Name</label>
               {{ form.author_first_name }}
               {% if form.author_first_name.errors %}
@@ -58,16 +56,16 @@
                 </div>
               {% endif %}
             </div>
-            <div style="flex: 1; min-width: 200px;">
+            <div class="author-name-field">
               <label for="id_author_last_name">Last Name</label>
               {{ form.author_last_name }} {% if form.author_last_name.errors %}
               <div class="form-error">{{ form.author_last_name.errors.0 }}</div>
               {% endif %}
             </div>
-            <div style="display: flex; align-items: flex-end; margin-top: 1.5em;">
-              <label for="id_author_anonymous" style="display: flex; align-items: center; gap: 0.5em; margin: 0; cursor: pointer;">
+            <div class="anonymous-checkbox-field">
+              <label for="id_author_anonymous" class="anonymous-checkbox">
                 {{ form.author_anonymous }}
-                <span style="font-size: 0.95em">Anonymous</span>
+                <span>Anonymous Author</span>
               </label>
               {% if form.author_anonymous.errors %}
               <div class="form-error">{{ form.author_anonymous.errors.0 }}</div>
@@ -93,20 +91,20 @@
         </div>
 
         <!-- Publisher, City, Year (in a row) -->
-        <div class="form-group" style="display: flex; gap: 1em">
-          <div style="flex: 1">
+        <div class="form-group publication-fields">
+          <div class="publication-field">
             <label for="id_publisher">Publisher</label>
             {{ form.publisher }} {% if form.publisher.errors %}
             <div class="form-error">{{ form.publisher.errors.0 }}</div>
             {% endif %}
           </div>
-          <div style="flex: 1">
+          <div class="publication-field">
             <label for="id_city">City</label>
             {{ form.city }} {% if form.city.errors %}
             <div class="form-error">{{ form.city.errors.0 }}</div>
             {% endif %}
           </div>
-          <div style="flex: 1">
+          <div class="publication-field">
             <label for="id_year">Year</label>
             {{ form.year }} {% if form.year.errors %}
             <div class="form-error">{{ form.year.errors.0 }}</div>
@@ -132,7 +130,7 @@
             </div>
             <div class="selected-tags" id="selected-tags"></div>
             {{ form.tags }}
-            <small style="color: #666; font-size: 0.9em;">Type to add new tags or select from suggestions. Press Enter to add.</small>
+            <small class="tag-help-text">Type to add new tags or select from suggestions. Press Enter to add.</small>
           </div>
         </div>
 
@@ -154,7 +152,6 @@
 
         <button type="submit" class="nav-btn">Submit Book</button>
       </form>
-    </div>
   </div>
 </div>
 

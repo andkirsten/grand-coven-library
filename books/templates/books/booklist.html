@@ -30,9 +30,13 @@
         <span class="year">{{ book.year }}</span>
         {% endif %}
       </div>
-      {% endif %} {% if book.summary %}
+      {% endif %}       {% if book.summary %}
       <div class="book-summary">{{ book.summary|truncatewords:100 }}</div>
-      {% endif %}       <div class="book-tags">
+      {% endif %}
+      {% if book.notes %}
+      <div class="book-notes">{{ book.notes|truncatewords:50 }}</div>
+      {% endif %}
+      <div class="book-tags">
         <!-- Auto-generated tags from magic category and book type -->
         {% for code, label in magic_choices %}
           {% if code == book.magic_category %}
@@ -56,15 +60,13 @@
           <span>{{ book.librarian }}</span></small
         >
       </div>
-      <div class="book-actions">
-        <a
-          href="{% url 'print_card' book.id %}"
-          target="_blank"
-          class="print-card-btn"
-        >
-          Print Catalog Card
-        </a>
-      </div>
+      <a
+        href="{% url 'print_card' book.id %}"
+        target="_blank"
+        class="print-card-btn"
+      >
+        Print Catalog Card
+      </a>
     </div>
   </div>
   {% empty %}
