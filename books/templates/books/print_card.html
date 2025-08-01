@@ -40,13 +40,13 @@
         <div class="print-card-dot"></div>
         <div class="print-card-decorator">
           <img
-            src="{% static 'books/images/GC_decoration.png' %}"
+            src="{% if embedded_mode and decorator_base64 %}data:image/png;base64,{{ decorator_base64 }}{% else %}{% static 'books/images/GC_decoration.png' %}{% endif %}"
             alt="Decorative element"
           />
         </div>
         <div class="print-card-watermark">
           <img
-            src="{% static 'books/images/GCWatermark.png' %}"
+            src="{% if embedded_mode and watermark_base64 %}data:image/png;base64,{{ watermark_base64 }}{% else %}{% static 'books/images/GCWatermark.png' %}{% endif %}"
             alt="GCL Logo"
           />
         </div>
@@ -74,13 +74,13 @@
         <div class="print-card-dot"></div>
         <div class="print-card-decorator">
           <img
-            src="{% static 'books/images/GC_decoration.png' %}"
+            src="{% if embedded_mode and decorator_base64 %}data:image/png;base64,{{ decorator_base64 }}{% else %}{% static 'books/images/GC_decoration.png' %}{% endif %}"
             alt="Decorative element"
           />
         </div>
         <div class="print-card-watermark">
           <img
-            src="{% static 'books/images/GCWatermark.png' %}"
+            src="{% if embedded_mode and watermark_base64 %}data:image/png;base64,{{ watermark_base64 }}{% else %}{% static 'books/images/GCWatermark.png' %}{% endif %}"
             alt="GCL Logo"
           />
         </div>

@@ -199,8 +199,24 @@ def print_card(request, book_id):
 
 def create_self_contained_html(book):
     """Create a self-contained HTML with embedded CSS and fonts"""
+    # Get embedded images
+    watermark_base64 = get_image_base64('GCWatermark.png')
+    decorator_base64 = get_image_base64('GC_decoration.png')
+    
+    print(f"Embedding images for PDF generation:")
+    print(f"  Watermark base64 length: {len(watermark_base64) if watermark_base64 else 0}")
+    print(f"  Decorator base64 length: {len(decorator_base64) if decorator_base64 else 0}")
+    
+    # Create context with embedded images
+    context = {
+        'book': book,
+        'watermark_base64': watermark_base64,
+        'decorator_base64': decorator_base64,
+        'embedded_mode': True
+    }
+    
     # Get the basic HTML template
-    html_template = render_to_string('books/print_card.html', {'book': book})
+    html_template = render_to_string('books/print_card.html', context)
     
     # Create embedded CSS with fonts
     embedded_css = get_embedded_css()
@@ -265,6 +281,18 @@ def get_font_base64(font_filename):
             return base64.b64encode(f.read()).decode('utf-8')
     except FileNotFoundError:
         print(f"Font file not found: {font_path}")
+        return ""
+
+def get_image_base64(image_filename):
+    """Convert image file to base64 for embedding"""
+    import base64
+    import os
+    image_path = os.path.join(BASE_DIR, 'books', 'static', 'books', 'images', image_filename)
+    try:
+        with open(image_path, 'rb') as f:
+            return base64.b64encode(f.read()).decode('utf-8')
+    except FileNotFoundError:
+        print(f"Image file not found: {image_path}")
         return ""
 
 
