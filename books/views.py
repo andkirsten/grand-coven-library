@@ -254,7 +254,7 @@ def get_embedded_css():
             'Magi.ttf': get_font_base64('Magi.ttf'),
             'Theban.ttf': get_font_base64('Theban.ttf'),
             'Floki.ttf': get_font_base64('Floki.ttf'),
-            'malachim.ttf': get_font_base64('malachim.ttf')
+            'malachim.woff': get_font_base64('malachim.woff')
         }
         
         # Replace font URLs in CSS

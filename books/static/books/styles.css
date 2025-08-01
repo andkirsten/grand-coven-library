@@ -101,7 +101,7 @@ body {
 
 @font-face {
   font-family: "Malachim";
-  src: url("/static/books/fonts/malachim.ttf") format("truetype");
+  src: url("/static/books/fonts/malachim.woff") format("woff");
   font-display: swap;
 }
 

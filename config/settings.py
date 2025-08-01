@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'insecure-default-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['skoticus.com', 'www.skoticus.com', 'localhost', '127.0.0.1', 'grand-coven-library.onrender.com']
+ALLOWED_HOSTS = ['skoticus.com', 'www.skoticus.com', 'library.skoticus.com', 'localhost', '127.0.0.1', 'grand-coven-library.onrender.com']
 
 
 # Application definition
