@@ -254,8 +254,7 @@ def get_embedded_css():
             'Magi.ttf': get_font_base64('Magi.ttf'),
             'Theban.ttf': get_font_base64('Theban.ttf'),
             'Floki.ttf': get_font_base64('Floki.ttf'),
-            'malachim.ttf': get_font_base64('malachim.ttf'),
-            'malachim.woff': get_font_base64('malachim.woff')
+            'malachim.ttf': get_font_base64('malachim.ttf')
         }
         
         # Replace font URLs in CSS
@@ -275,6 +274,24 @@ def get_font_base64(font_filename):
     """Convert font file to base64 for embedding"""
     import base64
     import os
+    
+    # Debug: List what's actually in the directories
+    print(f"=== Font embedding debug for {font_filename} ===")
+    print(f"BASE_DIR: {BASE_DIR}")
+    
+    # Check what's in the staticfiles directory
+    staticfiles_path = os.path.join(BASE_DIR, 'staticfiles')
+    if os.path.exists(staticfiles_path):
+        print(f"staticfiles directory exists: {staticfiles_path}")
+        try:
+            import subprocess
+            result = subprocess.run(['find', staticfiles_path, '-name', '*.ttf', '-o', '-name', '*.woff'], 
+                                  capture_output=True, text=True)
+            print(f"Font files in staticfiles: {result.stdout}")
+        except:
+            print("Could not list staticfiles contents")
+    else:
+        print(f"staticfiles directory does not exist: {staticfiles_path}")
     
     # Try multiple possible paths for production and development
     possible_paths = [
