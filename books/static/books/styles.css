@@ -83,26 +83,26 @@ body {
 
 @font-face {
   font-family: "Magi";
-  src: url("/books/static/books/fonts/Magi.ttf") format("truetype");
+  src: url("/static/books/fonts/Magi.ttf") format("truetype");
   font-display: swap;
 }
 
 @font-face {
   font-family: "Theban";
-  src: url("/books/static/books/fonts/Theban.ttf") format("truetype");
+  src: url("/static/books/fonts/Theban.ttf") format("truetype");
   font-display: swap;
 }
 
 @font-face {
   font-family: "Floki";
-  src: url("/books/static/books/fonts/Floki.ttf") format("truetype");
+  src: url("/static/books/fonts/Floki.ttf") format("truetype");
   font-display: swap;
 }
 
 @font-face {
   font-family: "Malachim";
-  src: url("/books/static/books/fonts/malachim.woff") format("woff"),
-    url("/books/static/books/fonts/malachim.ttf") format("truetype");
+  src: url("/static/books/fonts/malachim.woff") format("woff"),
+    url("/static/books/fonts/malachim.ttf") format("truetype");
   font-display: swap;
 }
 
@@ -469,6 +469,8 @@ form select:focus {
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-sm);
   font-family: var(--font-main);
+  flex: 1;
+  min-width: 0;
 }
 
 .call-number {
@@ -480,6 +482,8 @@ form select:focus {
   padding: 4px 8px;
   border-radius: 4px;
   border: 1px solid #dee2e6;
+  flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .book-details {
