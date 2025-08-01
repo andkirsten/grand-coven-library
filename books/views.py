@@ -275,25 +275,49 @@ def get_font_base64(font_filename):
     """Convert font file to base64 for embedding"""
     import base64
     import os
-    font_path = os.path.join(BASE_DIR, 'books', 'static', 'books', 'fonts', font_filename)
-    try:
-        with open(font_path, 'rb') as f:
-            return base64.b64encode(f.read()).decode('utf-8')
-    except FileNotFoundError:
-        print(f"Font file not found: {font_path}")
-        return ""
+    
+    # Try multiple possible paths for production and development
+    possible_paths = [
+        os.path.join(BASE_DIR, 'books', 'static', 'books', 'fonts', font_filename),
+        os.path.join(BASE_DIR, 'static', 'books', 'fonts', font_filename),
+        os.path.join(BASE_DIR, 'books', 'staticfiles', 'books', 'fonts', font_filename),
+        os.path.join(BASE_DIR, 'staticfiles', 'books', 'fonts', font_filename),
+    ]
+    
+    for font_path in possible_paths:
+        try:
+            with open(font_path, 'rb') as f:
+                return base64.b64encode(f.read()).decode('utf-8')
+        except FileNotFoundError:
+            continue
+    
+    print(f"Font file not found: {font_filename}")
+    print(f"Tried paths: {possible_paths}")
+    return ""
 
 def get_image_base64(image_filename):
     """Convert image file to base64 for embedding"""
     import base64
     import os
-    image_path = os.path.join(BASE_DIR, 'books', 'static', 'books', 'images', image_filename)
-    try:
-        with open(image_path, 'rb') as f:
-            return base64.b64encode(f.read()).decode('utf-8')
-    except FileNotFoundError:
-        print(f"Image file not found: {image_path}")
-        return ""
+    
+    # Try multiple possible paths for production and development
+    possible_paths = [
+        os.path.join(BASE_DIR, 'books', 'static', 'books', 'images', image_filename),
+        os.path.join(BASE_DIR, 'static', 'books', 'images', image_filename),
+        os.path.join(BASE_DIR, 'books', 'staticfiles', 'books', 'images', image_filename),
+        os.path.join(BASE_DIR, 'staticfiles', 'books', 'images', image_filename),
+    ]
+    
+    for image_path in possible_paths:
+        try:
+            with open(image_path, 'rb') as f:
+                return base64.b64encode(f.read()).decode('utf-8')
+        except FileNotFoundError:
+            continue
+    
+    print(f"Image file not found: {image_filename}")
+    print(f"Tried paths: {possible_paths}")
+    return ""
 
 
 
