@@ -60,7 +60,6 @@ body {
   background-color: var(--color-bg);
   background-image: url("/static/books/images/garden.jpg");
   background-size: 120% auto;
-  background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   min-height: 100vh;
