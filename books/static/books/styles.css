@@ -1240,15 +1240,15 @@ form select:focus {
 .print-card-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding-left: 1em;
-  padding-top: 1em;
   max-width: 100%;
   word-break: break-word;
   overflow: hidden;
+  padding-top: 1em;
 }
 
-.print-card-content.notes-content {
+.print-card-content .notes-content {
   justify-content: flex-start;
   padding-top: 1.5em;
 }
@@ -1280,6 +1280,9 @@ form select:focus {
   transform: translateX(-50%);
   box-shadow: 0 0 0 3px #000;
   z-index: 10;
+  position: absolute;
+  left: 2.5in;
+  bottom: 0.2em;
 }
 
 .print-card-watermark {
@@ -1308,14 +1311,14 @@ form select:focus {
   height: 1.5in;
   width: auto;
   bottom: 0;
-  left: -3.65in;
+  left: -1em;
   z-index: 2;
   transform: scaleX(-1);
 }
 
 .print-card-decorator img {
-  width: 100%;
-  height: auto;
+  height: 1.5in;
+  width: auto;
   display: block;
 }
 
