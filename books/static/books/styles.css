@@ -60,9 +60,9 @@ body {
   background-color: var(--color-bg);
   background-image: url("/static/books/images/garden.jpg");
   background-size: 120% auto;
-  background-position: center center;
+  background-position: center top;
   background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-attachment: fixed;
   min-height: 100vh;
   /* Mobile viewport improvements */
   -webkit-text-size-adjust: 100%;
@@ -1161,7 +1161,9 @@ form select:focus {
 
 /* Print card styles */
 .print-card-body {
-  background: var(--color-white);
+  background: var(--color-white) !important;
+  background-image: none !important;
+  background-attachment: scroll !important;
   padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
@@ -1322,6 +1324,11 @@ form select:focus {
 }
 
 /* Print styles */
+@page {
+  size: landscape;
+  margin: 0.5in;
+}
+
 @media print {
   body {
     background: none !important;
