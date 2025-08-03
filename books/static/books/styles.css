@@ -597,6 +597,7 @@ form select:focus {
   right: 6em;
   height: 1px;
   background: var(--color-border);
+  width: 80%;
 }
 
 .no-books {
@@ -617,7 +618,7 @@ form select:focus {
   background: var(--color-accent);
   color: var(--color-white);
   border: none;
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-md);
   border-radius: var(--radius-md);
   cursor: pointer;
   font-size: 0.9rem;
@@ -1643,11 +1644,15 @@ form select:focus {
   }
 
   .print-card-btn {
-    bottom: var(--spacing-sm);
-    right: var(--spacing-sm);
-    padding: var(--spacing-sm) var(--spacing-md);
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-md);
     font-size: 0.85rem;
-    min-height: 44px; /* Touch target size */
+  }
+
+  .book-meta::before {
+    right: 8em;
+    max-width: 75%;
   }
 
   /* Modal improvements */
@@ -1693,8 +1698,14 @@ form select:focus {
   }
 
   .print-card-btn {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-sm);
     font-size: 0.8rem;
+  }
+
+  .book-meta::before {
+    max-width: 65%;
   }
 
   /* Modal adjustments for very small screens */
@@ -1780,12 +1791,15 @@ form select:focus {
   }
 
   .print-card-btn {
-    bottom: var(--spacing-xs);
-    right: var(--spacing-xs);
-    padding: 2px var(--spacing-xs);
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-sm);
     font-size: 0.75rem;
     margin-top: var(--spacing-sm);
-    min-height: 32px;
+  }
+
+  .book-meta::before {
+    right: 8em; /* Shorter line to avoid the button */
   }
 
   /* Info page minimal layout */

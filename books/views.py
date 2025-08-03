@@ -37,7 +37,7 @@ def handle_book_form_submission(request):
         print(f"Secret code entered: '{code}'")
         print(f"Expected code: '{settings.GCL_SECRET_CODE}'")
         
-        if code != settings.GCL_SECRET_CODE:
+        if code.lower() != settings.GCL_SECRET_CODE.lower():
             print("Secret code mismatch!")
             form.add_error('gcl_secret_code', 'Invalid GCL Secret Code.')
             show_modal = True
