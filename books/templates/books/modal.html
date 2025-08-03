@@ -123,15 +123,11 @@
         <!-- Tags -->
         <div class="form-group">
           <label for="id_tags">Tags</label>
-          <div class="tag-field-container">
-            <div class="tag-input-wrapper">
-              <input type="text" id="tag-input" placeholder="Type a tag and press Enter" />
-              <div class="tag-suggestions" id="tag-suggestions" style="display: none;"></div>
-            </div>
-            <div class="selected-tags" id="selected-tags"></div>
-            {{ form.tags }}
-            <small class="tag-help-text">Type to add new tags or select from suggestions. Press Enter to add.</small>
-          </div>
+          {{ form.tags }}
+          <small class="tag-help-text">Enter tags separated by commas (e.g., "magic, spells, rituals")</small>
+          {% if form.tags.errors %}
+          <div class="form-error">{{ form.tags.errors.0 }}</div>
+          {% endif %}
         </div>
 
         <!-- Notes -->
@@ -155,136 +151,18 @@
   </div>
 </div>
 
-<!-- jQuery (required for Select2) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Modal JS -->
 <script src="{% static 'books/js/modal.js' %}"></script>
-<!-- Select2 CSS/JS -->
-<link
-  href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-  rel="stylesheet"
-/>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-  $(document).ready(function () {
-    const tagInput = document.getElementById('tag-input');
-    const selectedTagsContainer = document.getElementById('selected-tags');
-    const hiddenTagsField = document.getElementById('id_tags');
-    const suggestionsContainer = document.getElementById('tag-suggestions');
+  // Simple tag input enhancement
+  document.addEventListener('DOMContentLoaded', function() {
+    const tagsInput = document.getElementById('id_tags');
     
-    // Get existing tags for suggestions
-    const existingTags = [
-      {% for tag in form.fields.tags.queryset %}
-        '{{ tag.name }}',
-      {% endfor %}
-    ];
-    
-    let selectedTags = [];
-    
-    // Initialize with existing tags if editing
-    const initialTags = '{{ form.tags.value|default:"" }}';
-    if (initialTags) {
-      selectedTags = initialTags.split(',').map(tag => tag.trim()).filter(tag => tag);
-      selectedTags.forEach(tag => addTagBadge(tag));
-      updateHiddenField();
+    // Add placeholder text for better UX
+    if (tagsInput) {
+      tagsInput.placeholder = "Enter tags separated by commas (e.g., magic, spells, rituals)";
     }
-    
-    function addTagBadge(tagName) {
-      if (selectedTags.includes(tagName)) return; // Don't add duplicates
-      
-      selectedTags.push(tagName);
-      const badge = document.createElement('span');
-      badge.className = 'tag-badge';
-      badge.innerHTML = `
-        ${tagName}
-        <button type="button" class="remove-tag" onclick="removeTag('${tagName}')">&times;</button>
-      `;
-      selectedTagsContainer.appendChild(badge);
-      updateHiddenField();
-    }
-    
-    function removeTag(tagName) {
-      selectedTags = selectedTags.filter(tag => tag !== tagName);
-      updateHiddenField();
-      // Re-render badges
-      selectedTagsContainer.innerHTML = '';
-      selectedTags.forEach(tag => addTagBadge(tag));
-    }
-    
-    function updateHiddenField() {
-      hiddenTagsField.value = selectedTags.join(', ');
-    }
-    
-    function showSuggestions(input) {
-      const query = input.toLowerCase();
-      const matches = existingTags.filter(tag => 
-        tag.toLowerCase().includes(query) && !selectedTags.includes(tag)
-      );
-      
-      if (matches.length > 0) {
-        suggestionsContainer.innerHTML = matches.map(tag => 
-          `<div class="tag-suggestion" onclick="selectSuggestion('${tag}')">${tag}</div>`
-        ).join('');
-        suggestionsContainer.style.display = 'block';
-      } else {
-        suggestionsContainer.style.display = 'none';
-      }
-    }
-    
-    function selectSuggestion(tagName) {
-      addTagBadge(tagName);
-      tagInput.value = '';
-      suggestionsContainer.style.display = 'none';
-    }
-    
-    // Handle input events
-    tagInput.addEventListener('input', function() {
-      if (this.value.trim()) {
-        showSuggestions(this.value);
-      } else {
-        suggestionsContainer.style.display = 'none';
-      }
-    });
-    
-    tagInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const tagName = this.value.trim();
-        if (tagName && selectedTags.length < 10) {
-          addTagBadge(tagName);
-          this.value = '';
-          suggestionsContainer.style.display = 'none';
-        }
-      }
-    });
-    
-    // Hide suggestions when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!tagInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
-        suggestionsContainer.style.display = 'none';
-      }
-    });
-    
-    // Make functions global
-    window.removeTag = removeTag;
-    window.selectSuggestion = selectSuggestion;
   });
-</script>
-<script>
-  function addTag(tagName) {
-    var $select = $("#id_tags");
-    // If the tag isn't already in the select, add it
-    if ($select.find("option[value='" + tagName + "']").length === 0) {
-      var newOption = new Option(tagName, tagName, true, true);
-      $select.append(newOption).trigger("change");
-    } else {
-      $select
-        .val(function (i, val) {
-          return val.concat(tagName);
-        })
-        .trigger("change");
-    }
-  }
 </script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {

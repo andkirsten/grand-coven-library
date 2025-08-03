@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.contrib import messages
+from django.core.paginator import Paginator
 import weasyprint
 from django.db.models import Q
 from pathlib import Path
@@ -113,7 +114,17 @@ def home(request):
     else:
         form = BookForm()
     
-    return render(request, 'books/booklist.html', {'form': form, 'books': books, 'show_modal': show_modal})
+    # Pagination
+    paginator = Paginator(books, 10)  # Show 10 books per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'books/booklist.html', {
+        'form': form, 
+        'books': page_obj, 
+        'show_modal': show_modal,
+        'page_obj': page_obj
+    })
 
 def card(request):
     return render(request, 'books/card.html')

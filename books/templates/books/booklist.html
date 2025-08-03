@@ -50,7 +50,7 @@
         {% endfor %}
         <!-- Actual user-added tags -->
         {% for tag in book.tags.all %}
-          <span class="tag user-tag clickable-tag" data-tag="{{ tag.name }}">{{ tag.name }}</span>
+          <span class="tag user-tag clickable-tag" data-tag="{{ tag.name }}">{{ tag.name|title }}</span>
         {% endfor %}
       </div>
 
@@ -76,5 +76,24 @@
   </div>
   {% endfor %}
 </div>
+
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+<div class="pagination-container">
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}{% if request.GET.magic_category %}&magic_category={{ request.GET.magic_category }}{% endif %}{% if request.GET.book_type %}&book_type={{ request.GET.book_type }}{% endif %}&page={{ page_obj.previous_page_number }}" class="pagination-btn">&laquo; Previous</a>
+    {% endif %}
+    
+    <span class="pagination-info">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+    
+    {% if page_obj.has_next %}
+      <a href="?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}{% if request.GET.magic_category %}&magic_category={{ request.GET.magic_category }}{% endif %}{% if request.GET.book_type %}&book_type={{ request.GET.book_type }}{% endif %}&page={{ page_obj.next_page_number }}" class="pagination-btn">Next &raquo;</a>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}
