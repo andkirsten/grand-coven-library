@@ -116,9 +116,9 @@
         <div class="form-group">
           <label for="id_summary">Summary</label>
           {{ form.summary }}
-          <small class="summary-help-text">1000 characters max. Only the first 370 characters will appear on the print card before being truncated.</small>
+          <small class="summary-help-text">1000 characters max. Only the first 60 words will appear on the print card before being truncated.</small>
           <div class="character-counter">
-            <span id="summary-char-count">0</span> / 370 characters
+            <span id="summary-word-count">0</span> / 60 words
           </div>
           {% if form.summary.errors %}
           <div class="form-error">{{ form.summary.errors.0 }}</div>
@@ -168,32 +168,33 @@
       tagsInput.placeholder = "Enter tags separated by commas (e.g., magic, spells, rituals)";
     }
     
-    // Character counter for summary field
+    // Word counter for summary field
     const summaryInput = document.getElementById('id_summary');
-    const charCount = document.getElementById('summary-char-count');
+    const wordCount = document.getElementById('summary-word-count');
     
-    if (summaryInput && charCount) {
+    if (summaryInput && wordCount) {
       // Update counter on input
-      function updateCharCount() {
-        const currentLength = summaryInput.value.length;
-        charCount.textContent = currentLength;
+      function updateWordCount() {
+        const text = summaryInput.value.trim();
+        const currentWords = text === '' ? 0 : text.split(/\s+/).length;
+        wordCount.textContent = currentWords;
         
         // Add visual feedback when approaching/exceeding limit
-        if (currentLength > 370) {
-          charCount.style.color = '#e74c3c'; // Red when over limit
-        } else if (currentLength > 320) {
-          charCount.style.color = '#f39c12'; // Orange when approaching limit
+        if (currentWords > 60) {
+          wordCount.style.color = '#e74c3c'; // Red when over limit
+        } else if (currentWords > 50) {
+          wordCount.style.color = '#f39c12'; // Orange when approaching limit
         } else {
-          charCount.style.color = '#2c3e50'; // Default color
+          wordCount.style.color = '#2c3e50'; // Default color
         }
       }
       
       // Initialize counter
-      updateCharCount();
+      updateWordCount();
       
       // Add event listeners
-      summaryInput.addEventListener('input', updateCharCount);
-      summaryInput.addEventListener('keyup', updateCharCount);
+      summaryInput.addEventListener('input', updateWordCount);
+      summaryInput.addEventListener('keyup', updateWordCount);
     }
   });
 </script>
