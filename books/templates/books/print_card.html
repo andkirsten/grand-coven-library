@@ -7,6 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library Card - {{ book.title }}</title>
     <link rel="stylesheet" href="{% static 'books/styles.css' %}" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'books/images/favicon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'books/images/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'books/images/favicon.png' %}">
   </head>
   <body class="print-card-body">
     <div class="print-card-container">
@@ -32,7 +36,7 @@
               {% if book.year %}, {{ book.year }}{% endif %}
             </div>
             {% if book.summary %}
-            <div class="description">{{ book.summary }}</div>
+            <div class="description">{{ book.summary|truncatechars:370 }}</div>
             {% endif %}
           </div>
         </div>

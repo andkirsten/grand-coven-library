@@ -115,7 +115,12 @@
         <!-- Summary -->
         <div class="form-group">
           <label for="id_summary">Summary</label>
-          {{ form.summary }} {% if form.summary.errors %}
+          {{ form.summary }}
+          <small class="summary-help-text">1000 characters max. Only the first 370 characters will appear on the print card before being truncated.</small>
+          <div class="character-counter">
+            <span id="summary-char-count">0</span> / 370 characters
+          </div>
+          {% if form.summary.errors %}
           <div class="form-error">{{ form.summary.errors.0 }}</div>
           {% endif %}
         </div>
@@ -161,6 +166,34 @@
     // Add placeholder text for better UX
     if (tagsInput) {
       tagsInput.placeholder = "Enter tags separated by commas (e.g., magic, spells, rituals)";
+    }
+    
+    // Character counter for summary field
+    const summaryInput = document.getElementById('id_summary');
+    const charCount = document.getElementById('summary-char-count');
+    
+    if (summaryInput && charCount) {
+      // Update counter on input
+      function updateCharCount() {
+        const currentLength = summaryInput.value.length;
+        charCount.textContent = currentLength;
+        
+        // Add visual feedback when approaching/exceeding limit
+        if (currentLength > 370) {
+          charCount.style.color = '#e74c3c'; // Red when over limit
+        } else if (currentLength > 320) {
+          charCount.style.color = '#f39c12'; // Orange when approaching limit
+        } else {
+          charCount.style.color = '#2c3e50'; // Default color
+        }
+      }
+      
+      // Initialize counter
+      updateCharCount();
+      
+      // Add event listeners
+      summaryInput.addEventListener('input', updateCharCount);
+      summaryInput.addEventListener('keyup', updateCharCount);
     }
   });
 </script>
