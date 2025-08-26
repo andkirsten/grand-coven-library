@@ -67,7 +67,7 @@
             {% if book.notes %}
             <div class="print-card-notes-label">Notes:</div>
             <div class="print-card-notes-content">
-              {{ book.notes|linebreaksbr }}
+              {{ book.notes|truncatewords:60|linebreaksbr }}
             </div>
             {% else %}
             <div class="print-card-notes-content">No additional notes.</div>
