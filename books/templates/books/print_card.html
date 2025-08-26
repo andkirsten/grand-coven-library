@@ -36,7 +36,7 @@
               {% if book.year %}, {{ book.year }}{% endif %}
             </div>
             {% if book.summary %}
-            <div class="description">{{ book.summary|truncatechars:370 }}</div>
+            <div class="description">{{ book.summary|truncatewords:60 }}</div>
             {% endif %}
           </div>
         </div>
